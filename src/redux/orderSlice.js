@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://backend-d72l.onrender.com";
 
 // 1. Yeni Sipariş Oluştur (Kullanıcı)
 export const createOrder = createAsyncThunk('createOrder', async (orderData) => {
@@ -49,7 +49,7 @@ export const uploadOrderPhoto = createAsyncThunk("uploadOrderPhoto", async ({ id
     try {
 
         const token = localStorage.getItem("token");
-        const { data } = await axios.put(`http://localhost:4000/admin/order/upload-photo/${id}`, { image }, {
+        const { data } = await axios.put(`https://backend-d72l.onrender.com/admin/order/upload-photo/${id}`, { image }, {
 
             headers: { "Authorization": `Bearer ${token}` }
         });
@@ -68,7 +68,7 @@ export const approveOrder = createAsyncThunk("approveOrder", async (id, { reject
     try {
 
         const token = localStorage.getItem("token");
-        const { data } = await axios.put(`http://localhost:4000/order/approve/${id}`, {}, {
+        const { data } = await axios.put(`https://backend-d72l.onrender.com/order/approve/${id}`, {}, {
             headers: { "Authorization": `Bearer ${token}` }
         });
 
