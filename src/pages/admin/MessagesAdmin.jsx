@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { FaPaperPlane, FaUserCircle, FaComments, FaTrashAlt, FaCheck, FaCheckDouble, FaBolt } from 'react-icons/fa';
 import AdminPanel from '../../layout/AdminPanel';
 
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect("https://backend-d72l.onrender.com");
 
 const MessagesAdmin = () => {
     const { user } = useSelector(state => state.user);
@@ -357,5 +357,6 @@ const MessagesAdmin = () => {
 
     );
 };
+
 
 export default MessagesAdmin;
