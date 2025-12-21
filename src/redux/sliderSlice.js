@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const createSlider = createAsyncThunk("createSlider", async (sliderData) => {
 
-    const { data } = await axios.post("http://localhost:4000/admin/slider/new", sliderData, {
+    const { data } = await axios.post("https://backend-d72l.onrender.com/admin/slider/new", sliderData, {
 
         headers: { "Content-Type": "application/json" },
         withCredentials: true
@@ -13,14 +13,14 @@ export const createSlider = createAsyncThunk("createSlider", async (sliderData) 
 
 export const getAllSliders = createAsyncThunk("getAllSliders", async () => {
 
-    const { data } = await axios.get("http://localhost:4000/sliders");
+    const { data } = await axios.get("https://backend-d72l.onrender.com/sliders");
     return data.sliders;
 });
 
 
 export const deleteSlider = createAsyncThunk("deleteSlider", async (id) => {
 
-    const { data } = await axios.delete(`http://localhost:4000/admin/slider/${id}`);
+    const { data } = await axios.delete(`https://backend-d72l.onrender.com/admin/slider/${id}`);
     return { id, success: data.success };
 });
 
@@ -76,4 +76,5 @@ const sliderSlice = createSlice({
 });
 
 export const { clearErrors, resetSliderStatus } = sliderSlice.actions;
+
 export default sliderSlice.reducer;
