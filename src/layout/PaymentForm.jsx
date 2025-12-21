@@ -123,7 +123,7 @@ const PaymentForm = () => {
 
         try {
 
-            const res = await axios.post('http://localhost:4000/api/payment/', paymentData);
+            const res = await axios.post('https://backend-d72l.onrender.com/api/payment/', paymentData);
             
             if (res.data.status === 'success') {
 
@@ -177,5 +177,6 @@ const PaymentForm = () => {
         </div>
     );
 };
+
 
 export default PaymentForm;
