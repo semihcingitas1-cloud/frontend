@@ -25,7 +25,7 @@ const UpdateProductPage = () => {
 
             try {
 
-                const response = await fetch(`http://localhost/product/${id}`);
+                const response = await fetch(`https://backend-d72l.onrender.com/product/${id}`);
                 const result = await response.json();
                 
                 if(result.product) {
@@ -128,5 +128,6 @@ const UpdateProductPage = () => {
         </div>
     );
 };
+
 
 export default UpdateProductPage;
