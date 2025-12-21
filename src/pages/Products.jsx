@@ -38,11 +38,15 @@ const Products = () => {
   
         <div>
 
-            <div className='flex justify-between'>
+            <div className='flex flex-col md:flex-row gap-6 p-4 md:p-8 max-w-[1440px] mx-auto'>
 
-                <Filter setPrice={setPrice} setRating={setRating} setCategory={setCategory} />
+                <div className='w-full md:w-1/4 lg:w-1/5'>
 
-                <div className='w-10/12'>
+                    <Filter setPrice={setPrice} setRating={setRating} setCategory={setCategory} />
+
+                </div>
+
+                <div className='w-full md:flex-1'>
 
                     {
 
@@ -82,5 +86,6 @@ const Products = () => {
         </div>
     );
 };
+
 
 export default Products;
