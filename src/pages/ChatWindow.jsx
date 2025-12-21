@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import { FaPaperPlane, FaComments, FaTimes, FaCheck, FaCheckDouble } from 'react-icons/fa';
 
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect("https://backend-d72l.onrender.com");
 
 const ChatWindow = ({ user }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -197,5 +197,6 @@ const ChatWindow = ({ user }) => {
         </div>
     );
 };
+
 
 export default ChatWindow;
