@@ -89,7 +89,7 @@ const Filter = ({ setPrice, setRating, setCategory }) => {
                     <div className='flex gap-2 flex-wrap'>
                         {ratingList.map((rating, i) => (
                             <div 
-                                className='w-8 h-8 flex items-center justify-center border cursor-pointer rounded-md hover:bg-orange-100 hover:border-orange-400 transition-all' 
+                                className='w-8 h-8 flex items-center justify-center border cursor-pointer rounded-md hover:bg-rose-300 hover:border-rose-600 transition-all' 
                                 onClick={() => {
                                     setRating(rating);
                                     if(window.innerWidth < 768) setIsOpen(false);
@@ -123,3 +123,4 @@ const Filter = ({ setPrice, setRating, setCategory }) => {
 };
 
 export default Filter;
+
