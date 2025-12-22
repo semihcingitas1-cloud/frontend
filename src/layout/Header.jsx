@@ -70,7 +70,7 @@ import { logoutUser } from '../redux/userSlice';
 
             <div className='w-full flex items-center justify-between'>
 
-                <div onClick={() => (navigate('/'))} className='m-3 text-5xl cursor-pointer'>LOGO</div>
+                <div onClick={() => (navigate('/'))} className='m-3 text-5xl cursor-pointer'><img src="../../public/MERNlogo2.png"  alt="logo"/></div>
 
                 <div className='w-3/4 flex items-center justify-between'>
 
@@ -355,3 +355,4 @@ const Header = ({ edit }) => {
 
 
 export default Header;
+
