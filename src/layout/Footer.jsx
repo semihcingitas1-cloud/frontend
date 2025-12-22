@@ -7,7 +7,7 @@ const Footer = () => {
 
     return (
 
-        <footer className='w-full flex flex-col lg:flex-row items-start justify-between p-6 lg:p-10 border-t-2 border-black gap-10 bg-white'>
+        <footer className='w-full flex flex-col lg:flex-row items-start justify-between p-6 lg:p-10 border-t-2 border-black gap-10'>
 
             <div className='flex flex-col items-center w-full lg:w-1/2 space-y-10'>
 
@@ -100,5 +100,6 @@ const Footer = () => {
 
     );
 };
+
 
 export default Footer;
