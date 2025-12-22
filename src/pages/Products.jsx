@@ -52,7 +52,7 @@ const Products = () => {
                         {loading ? (
                             /* Yükleniyor Durumu */
                             <div className="flex flex-col items-center justify-center h-96 w-full">
-                                <Loader2 className="w-12 h-12 text-indigo-600 animate-spin mb-4" />
+                                <Loader2 className="w-12 h-12 text-rose-500 animate-spin mb-4" />
                                 <span className="text-gray-500 font-medium">Ürünler yükleniyor...</span>
                             </div>
                         ) : (
@@ -89,8 +89,8 @@ const Products = () => {
                                             
                                             // Tailwind CSS Sınıfları
                                             containerClassName="flex items-center gap-2"
-                                            pageLinkClassName="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors font-medium text-sm"
-                                            activeLinkClassName="!bg-indigo-600 !text-white !border-indigo-600 shadow-md"
+                                            pageLinkClassName="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-rose-500 transition-colors font-medium text-sm"
+                                            activeLinkClassName="!bg-rose500 !text-white !border-rose-500 shadow-md"
                                             previousLinkClassName="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-medium text-sm flex items-center"
                                             nextLinkClassName="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-medium text-sm flex items-center"
                                             breakLinkClassName="w-10 h-10 flex items-center justify-center text-gray-400"
@@ -108,3 +108,4 @@ const Products = () => {
 };
 
 export default Products;
+
