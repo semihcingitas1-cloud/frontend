@@ -8,3 +8,7 @@
 
   [plugins.inputs]
     baseUrl = "https://www.ornekciceksitesi.com"
+
+[plugins.inputs]
+    baseUrl = "https://ornekciceksitesi.com"
+    exclude = ["/google*.html"]
