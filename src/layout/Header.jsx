@@ -215,7 +215,7 @@ const Header = ({ edit }) => {
             <div className='py-3 px-4 md:px-7 flex items-center justify-between'>
                 
                 {/* SOL: LOGO */}
-                <div onClick={() => navigate('/')} className='text-3xl md:text-5xl cursor-pointer shrink-0'>LOGO</div>
+                <div onClick={() => navigate('/')} className='cursor-pointer'><img className='w-36' src={"/MERNlogo2.png"}  alt="logo"/></div>
 
                 {/* ORTA: MASAÜSTÜ ARAMA (Geniş ekranlarda hep açık) */}
                 <div className='hidden lg:flex flex-1 items-center justify-center px-10'>
@@ -355,4 +355,5 @@ const Header = ({ edit }) => {
 
 
 export default Header;
+
 
