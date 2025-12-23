@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import CountUp from 'react-countup';
+
+import { getAllOrders } from '../../redux/orderSlice';
 
 import AdminPanel from '../../layout/AdminPanel';
 
@@ -8,85 +12,36 @@ import { FaShoppingCart, FaDollarSign, FaUsers, FaBoxOpen, FaArrowUp, FaArrowDow
 const DashboardAdmin = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { orders, loading } = useSelector(state => state.orders);
 
     const stats = [
 
-        {
-
-            id: 1,
-            title: 'Toplam Satış',
-            value: '₺45.250',
-            icon: <FaDollarSign />,
-            color: 'bg-blue-500',
-            trend: '+12%',
-            up: true
-
-        },
-        {
-
-            id: 2,
-            title: 'Siparişler',
-            value: '128',
-            icon: <FaShoppingCart />,
-            color: 'bg-amber-500',
-            trend: '+5%',
-            up: true
-
-        },
-        {
-
-            id: 3,
-            title: 'Müşteriler',
-            value: '842',
-            icon: <FaUsers />,
-            color: 'bg-emerald-500',
-            trend: '+18%',
-            up: true
-
-        },
-        {
-
-            id: 4,
-            title: 'Ürün Sayısı',
-            value: '45',
-            icon: <FaBoxOpen />,
-            color: 'bg-rose-500',
-            trend: '-2%',
-            up: false
-
-        },
+        { id: 1, title: 'Toplam Satış', value: '₺45.250', icon: <FaDollarSign />, color: 'bg-blue-500', trend: '+12%', up: true },
+        { id: 2, title: 'Siparişler', value: '128', icon: <FaShoppingCart />, color: 'bg-amber-500', trend: '+5%', up: true },
+        { id: 3, title: 'Müşteriler', value: '842', icon: <FaUsers />, color: 'bg-emerald-500', trend: '+18%', up: true },
+        { id: 4, title: 'Ürün Sayısı', value: '45', icon: <FaBoxOpen />, color: 'bg-rose-500', trend: '-2%', up: false },
     ];
 
-    const recentOrders = [
+    useEffect(() => {
 
-        {
+        dispatch(getAllOrders());
+    }, [dispatch]);
 
-            id: "#1254",
-            customer: "Ahmet Yılmaz",
-            price: "₺450",
-            status: "Hazırlanıyor",
-            date: "10 Dakika Önce"
+    const getStatusStyle = (status) => {
 
-        },
-        {
+        switch (status) {
 
-            id: "#1253",
-            customer: "Ayşe Demir",
-            price: "₺1.200",
-            status: "Kargoda",
-            date: "1 Saat Önce"
-
-        },
-        {
-
-            id: "#1252",
-            customer: "Mehmet Can",
-            price: "₺320",
-            status: "Teslim Edildi",
-            date: "3 Saat Önce"
-
-        },
-    ];
+            case 'Ödeme Bekleniyor': return 'bg-orange-100 text-orange-700 border-orange-200';
+            case 'Hazırlanıyor': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+            case 'Onay Bekliyor': return 'bg-purple-100 text-purple-700 border-purple-200';
+            case 'Yolda': return 'bg-blue-100 text-blue-700 border-blue-200';
+            case 'Teslim Edildi': return 'bg-green-100 text-green-700 border-green-200';
+            case 'İptal Edildi': return 'bg-red-100 text-red-700 border-red-200';
+            default: return 'bg-gray-100 text-gray-700';
+        }
+    };
 
     return (
 
@@ -110,7 +65,7 @@ const DashboardAdmin = () => {
                         <div>
 
                             <p className="text-sm text-gray-400 font-medium">{stat.title}</p>
-                            <h3 className="text-2xl font-bold text-gray-800 mt-1">{stat.value}</h3>
+                            <h3 className="text-2xl font-bold text-gray-800 mt-1"><CountUp start={0} end={parseFloat(stat.value.toString().replace(/[^0-9.-]+/g, ""))} duration={2.5} separator="." decimals={stat.value.toString().includes(',') ? 2 : 0} suffix={stat.value.toString().includes('₺') ? ' ₺' : ''} prefix={stat.value.toString().includes('$') ? '$' : ''} /></h3>
 
                             <div className={`flex items-center gap-1 text-xs mt-2 ${stat.up ? 'text-green-500' : 'text-red-500'}`}>
 
@@ -142,6 +97,7 @@ const DashboardAdmin = () => {
 
                         </div>
 
+                        
                         <div className="overflow-x-auto">
 
                             <table className="w-full text-left">
@@ -160,23 +116,23 @@ const DashboardAdmin = () => {
 
                                 </thead>
 
-                                <tbody className="text-sm text-gray-600 divide-y divide-gray-50">
+                                {loading ? ( <div className="flex justify-center py-20 italic text-gray-500 text-lg">Sipariş verileri yükleniyor...</div> ) : ( <tbody className="text-sm text-gray-600 divide-y divide-gray-50">
 
-                                    {recentOrders.map((order) => ( <tr key={order.id} className="hover:bg-gray-50 transition-colors">
+                                    {[...orders].reverse().slice(0, 5).map((order) => ( <tr key={order._id} className="hover:bg-gray-50 transition-colors">
 
-                                        <td className="px-6 py-4 font-medium text-gray-800">{order.id}</td>
-                                        <td className="px-6 py-4">{order.customer}</td>
-                                        <td className="px-6 py-4 font-bold">{order.price}</td>
+                                        <td className="px-6 py-4 font-medium text-gray-800">#{order._id.slice(-6).toUpperCase()}</td>
+                                        <td className="px-6 py-4">{order.user?.name || 'Misafir'}</td>
+                                        <td className="px-6 py-4 font-bold">{order.totalPrice.toLocaleString()} ₺</td>
                                         <td className="px-6 py-4">
 
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold ${ order.status === 'Teslim Edildi' ? 'bg-green-100 text-green-600' : order.status === 'Kargoda' ? 'bg-blue-100 text-blue-600' : 'bg-amber-100 text-amber-600' }`}>{order.status}</span>
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold ${getStatusStyle(order.orderStatus)}`}>{order.orderStatus}</span>
 
                                         </td>
-                                        <td className="px-6 py-4 text-gray-400 text-xs">{order.date}</td>
+                                        <td className="px-6 py-4 text-gray-400 text-xs">{new Date(order.createdAt).toLocaleDateString('tr-TR')}</td>
 
                                     </tr>))}
 
-                                </tbody>
+                                </tbody>)}
 
                             </table>
 
@@ -245,7 +201,7 @@ const DashboardAdmin = () => {
 
                             <p className="text-rose-600 text-sm font-medium">Düşük Stok Uyarısı!</p>
                             <p className="text-xs text-rose-400 mt-1">3 ürününüzün stoğu 5'in altına düştü.</p>
-                            <div onClick={() => navigate('/')} className="mt-3 bg-rose-500 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-600">Ürünleri Kontrol Et</div>
+                            <div onClick={() => navigate('/admin/productsadmin')} className="mt-3 bg-rose-500 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-600">Ürünleri Kontrol Et</div>
 
                         </div>
 
