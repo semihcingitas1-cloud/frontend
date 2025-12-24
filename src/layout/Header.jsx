@@ -8,151 +8,7 @@ import { IoSearchOutline, IoMenuOutline, IoCloseOutline } from "react-icons/io5"
 import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { getKeyword } from '../redux/generalSlice';
 import { logoutUser } from '../redux/userSlice';
-{/*const Header = ({edit}) => {
-
-    const [openMenu, setOpenMenu] = useState(false);
-    const [keyword, setKeyword] = useState("");
-
-    const { user, isAuth } = useSelector(state => state.user);
-    const { carts } = useSelector(state => state.cart);
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    const menuItems = [
-
-        {
-
-            name: 'Profil',
-            url: 'profile'
-
-        },
-        {
-
-            name: 'Dashboard',
-            url: 'admin/dashboardadmin'
-
-        },
-        {
-
-            name: 'Çıkış',
-            url: 'logout'
-
-        },
-    ];
-
-    const menuFunc = (item) => {
-
-        if(item.name === 'Çıkış'){
-
-            localStorage.removeItem("token");
-            dispatch(logoutUser());
-            navigate('/');
-        }else{
-
-            navigate(item.url);
-        }
-
-        setOpenMenu(false);
-
-    };
-
-    const keywordFunction = () => {
-
-        dispatch(getKeyword(keyword));
-        setKeyword('');
-        navigate('/products')
-    };
-
-    return (
-
-        <div className='py-3 px-7 flex items-center justify-center w-full border-b-2 border-black'>
-
-            <div className='w-full flex items-center justify-between'>
-
-                <div onClick={() => (navigate('/'))} className='m-3 text-5xl cursor-pointer'><img src="../../public/MERNlogo2.png"  alt="logo"/></div>
-
-                <div className='w-3/4 flex items-center justify-between'>
-
-                    <div className='w-7/12 flex items-center justify-center gap-2'>
-
-                        <input value={keyword} onChange={e => setKeyword(e.target.value)} className='w-2/3 p-1 text-md outline-none border-2 border-gray-800 rounded-md' type="text" />
-                        <IoSearchOutline onClick={keywordFunction} size={40} className='bg-gray-100 rounded-full p-2 cursor-pointer' />
-
-                    </div>
-
-                    <div className='w-5/12 flex items-center justify-between'>
-
-                        <div className='flex justify-center items-center gap-3'>
-
-                            <TfiHeadphoneAlt size={30} />
-                            <div className='flex flex-col'>
-
-                                <h4>Bizi Arayın</h4>
-                                <a className='text-sm' href="#">+90-551-133-54-10</a>
-
-                            </div>
-
-                        </div>
-
-                        <div className='flex items-center justify-between gap-4'>
-
-                            {!edit && <div onClick={() => navigate('/orders/me')} className='flex flex-col items-center justify-center cursor-pointer'>
-
-                                <LiaShippingFastSolid size={30} />
-                                <div className='text-xs'>Sipariş Takibi</div>
-
-                            </div>}
-
-                            {!edit && <div onClick={() => navigate('/favorite')} className='flex flex-col items-center justify-center cursor-pointer relative'>
-
-                                <CiHeart size={30} />
-                                <div className='text-xs'>Favoriler</div>
-                                <div>{carts?.length > 0 ? <div className='absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white'>{carts?.length}</div> : <div></div>}</div>
-
-                            </div>}
-
-                            <div className='relative flex flex-col items-center justify-center cursor-pointer'>
-
-                                {user?.user ? <img onClick={() => {setOpenMenu(!openMenu)}} className='w-8 rounded-full' src={user?.user?.avatar?.url} /> : <CiUser onClick={() => {setOpenMenu(!openMenu)}} size={30} />}
-                                <div className='text-xs'>Profil</div>
-
-                                {openMenu && <div className='absolute right-0 mt-40 w-[100px] text-lg text-center bg-white shadow-lg shadow-gray-300 z-20'>
-
-                                    {menuItems.map((item, i) => (
-
-                                        <div onClick={() => menuFunc(item)} key={i} className='my-1 hover:bg-gray-100'>{item.name}</div>
-                                    ))}
-
-                                </div>}
-
-                            </div>
-
-                            {!edit && <div onClick={() => navigate('/cart')} className='flex flex-col items-center justify-center cursor-pointer relative'>
-
-                                <GiShoppingCart size={30} />
-                                <div className='text-xs'>Sepet</div>
-                                <div>{carts?.length > 0 ? <div className='absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white'>{carts?.length}</div> : <div></div>}</div>
-
-                            </div>}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    );
-};
-
-export default Header;*/}
-
-
-
-
+import Favorites from '../pages/Favorite';
 
 const Header = ({ edit }) => {
 
@@ -163,25 +19,20 @@ const Header = ({ edit }) => {
 
     const { user, isAuth } = useSelector(state => state.user);
     const { carts } = useSelector(state => state.cart);
+    const { favorites } = useSelector(state => state.favorite);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
 
     const menuItems = [
-    // 1. Eğer giriş yapılmışsa "Profil" her zaman görünsün
-    ...(isAuth ? [{ name: 'Profil', url: 'profile' }] : []),
 
-    ...(isAuth && user?.user?.role === 'admin' 
-        ? [{ name: 'Dashboard', url: 'admin/dashboardadmin' }] 
-        : []),
-        
-    // 3. Eğer giriş yapılmamışsa "Giriş Yap" görünsün
-    ...(!isAuth ? [{ name: 'Giriş Yap', url: 'auth' }] : []),
-    
-    // 4. Eğer giriş yapılmışsa "Çıkış" görünsün
-    ...(isAuth ? [{ name: 'Çıkış', url: 'logout' }] : []),
-];
+
+        ...(isAuth ? [{ name: 'Profil', url: 'profile' }] : []),
+        ...(isAuth && user?.user?.role === 'admin' ? [{ name: 'Dashboard', url: 'admin/dashboardadmin' }] : []),
+        ...(!isAuth ? [{ name: 'Giriş Yap', url: 'auth' }] : []),
+        ...(isAuth ? [{ name: 'Çıkış', url: 'logout' }] : []),
+    ];
 
     const menuFunc = (item) => {
 
@@ -213,52 +64,52 @@ const Header = ({ edit }) => {
         <div className='relative w-full border-b-2 border-black'>
 
             <div className='py-3 px-4 md:px-7 flex items-center justify-between'>
-                
-                {/* SOL: LOGO */}
+
                 <div onClick={() => navigate('/')} className='cursor-pointer'><img className='w-36' src={"/MERNlogo2.png"}  alt="logo"/></div>
 
-                {/* ORTA: MASAÜSTÜ ARAMA (Geniş ekranlarda hep açık) */}
                 <div className='hidden lg:flex flex-1 items-center justify-center px-10'>
+
                     <div className='w-full max-w-md flex items-center gap-2'>
-                        <input 
-                            value={keyword} 
-                            onChange={e => setKeyword(e.target.value)} 
-                            className='w-full p-1 text-md outline-none border-2 border-gray-800 rounded-md' 
-                            type="text" 
-                        />
+
+                        <input value={keyword} onChange={e => setKeyword(e.target.value)} placeholder='Aradığınız çiçeği bulun...' className='w-full p-1 text-md outline-none border-2 border-gray-800 rounded-md' type="text" />
                         <IoSearchOutline onClick={keywordFunction} size={40} className='bg-gray-100 rounded-full p-2 cursor-pointer shrink-0' />
+
                     </div>
+
                 </div>
 
-                {/* SAĞ: İKONLAR (Masaüstü) & BUTONLAR (Mobil) */}
                 <div className='flex items-center gap-4'>
                     
-                    {/* MOBİL İÇİN ARAMA AÇMA BUTONU */}
-                    <button onClick={() => setIsSearchOpen(!isSearchOpen)} className='lg:hidden p-2'>
-                        <IoSearchOutline size={30} />
-                    </button>
+                    <button onClick={() => setIsSearchOpen(!isSearchOpen)} className='lg:hidden p-2'><IoSearchOutline size={30} /></button>
 
-                    {/* MASAÜSTÜ İKON GRUBU */}
                     <div className='hidden lg:flex items-center gap-6'>
-                        {/* Bizi Arayın */}
+
                         <div className='flex items-center gap-2 shrink-0'>
+
                             <TfiHeadphoneAlt size={30} />
+
                             <div className='flex flex-col'>
+
                                 <h4 className='text-xs font-bold leading-tight'>Bizi Arayın</h4>
                                 <a className='text-sm' href="tel:+905511335410">+90-551-133-54-10</a>
+
                             </div>
+
                         </div>
 
-                        {/* Diğer İkonlar */}
                         {!edit && <div onClick={() => navigate('/orders/me')} className='flex flex-col items-center cursor-pointer'>
+
                             <LiaShippingFastSolid size={30} />
                             <div className='text-xs'>Sipariş Takibi</div>
+
                         </div>}
 
                         {!edit && <div onClick={() => navigate('/favorite')} className='relative flex flex-col items-center cursor-pointer'>
+
                             <CiHeart size={30} />
                             <div className='text-xs'>Favoriler</div>
-                            {carts?.length > 0 && <div className='absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-[10px]'>{carts?.length}</div>}
+                            {favorites?.length > 0 && <div className='absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-[10px]'>{favorites?.length}</div>}
+
                         </div>}
 
                         <div className='relative flex flex-col items-center cursor-pointer'>
@@ -282,78 +133,87 @@ const Header = ({ edit }) => {
                         </div>}
                     </div>
 
-                    {/* MOBİL HAMBURGER BUTONU */}
-                    <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className='lg:hidden p-2 border-2 border-black rounded'>
-                        {isMobileMenuOpen ? <IoCloseOutline size={30} /> : <IoMenuOutline size={30} />}
-                    </button>
+                    <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className='lg:hidden p-2 border-2 border-black rounded'>{isMobileMenuOpen ? <IoCloseOutline size={30} /> : <IoMenuOutline size={30} />}</button>
+
                 </div>
+
             </div>
 
-            {/* MOBİL ARAMA ÇUBUĞU (Açılır-Kapanır) */}
-            {isSearchOpen && (
-                <div className='lg:hidden p-4 bg-gray-50 border-t border-black flex items-center gap-2'>
-                    <input 
-                        autoFocus
-                        value={keyword} 
-                        onChange={e => setKeyword(e.target.value)} 
-                        className='w-full p-2 outline-none border-2 border-gray-800 rounded-md' 
-                        type="text" 
-                        placeholder="Ara..."
-                    />
-                    <IoSearchOutline onClick={keywordFunction} size={40} className='bg-black text-white rounded-full p-2 cursor-pointer' />
-                </div>
-            )}
+            {isSearchOpen && ( <div className='lg:hidden p-4 bg-gray-50 border-t border-black flex items-center gap-2'>
 
-            {/* MOBİL HAMBURGER MENÜ İÇERİĞİ */}
-            {isMobileMenuOpen && (
-                <div className='lg:hidden absolute top-full left-0 w-full bg-white border-t-2 border-black shadow-xl z-40 p-5'>
-                    <div className='flex flex-col gap-6'>
-                        {/* Mobil İletişim */}
-                        <div className='flex items-center gap-4 p-2 bg-gray-50 rounded'>
-                            <TfiHeadphoneAlt size={30} />
-                            <div>
-                                <h4 className='text-xs font-bold'>Bizi Arayın</h4>
-                                <a className='text-sm' href="tel:+905511335410">+90-551-133-54-10</a>
-                            </div>
+                <input autoFocus value={keyword} onChange={e => setKeyword(e.target.value)} className='w-full p-2 outline-none border-2 border-gray-800 rounded-md' type="text" placeholder="Aradığınız çiçeği bulun..."/>
+                <IoSearchOutline onClick={keywordFunction} size={40} className='bg-black text-white rounded-full p-2 cursor-pointer' />
+
+            </div>)}
+
+            {isMobileMenuOpen && ( <div className='lg:hidden absolute top-full left-0 w-full bg-white border-t-2 border-black shadow-xl z-40 p-5'>
+
+                <div className='flex flex-col gap-6'>
+
+                    <div className='flex items-center gap-4 p-2 bg-gray-50 rounded'>
+
+                        <TfiHeadphoneAlt size={30} />
+
+                        <div>
+
+                            <h4 className='text-xs font-bold'>Bizi Arayın</h4>
+                            <a className='text-sm' href="tel:+905511335410">+90-551-133-54-10</a>
+
                         </div>
 
-                        {/* Mobil Aksiyonlar */}
-                        <div className='grid grid-cols-2 gap-4'>
-                            {!edit && <div onClick={() => {navigate('/orders/me'); setIsMobileMenuOpen(false);}} className='flex flex-col items-center p-2 border border-gray-200 rounded'>
-                                <LiaShippingFastSolid size={30} />
-                                <span className='text-xs'>Sipariş Takibi</span>
-                            </div>}
-                            {!edit && <div onClick={() => {navigate('/favorite'); setIsMobileMenuOpen(false);}} className='relative flex flex-col items-center p-2 border border-gray-200 rounded'>
-                                <CiHeart size={30} />
-                                <span className='text-xs'>Favoriler</span>
-                                {carts?.length > 0 && <span className='bg-red-500 text-white text-[10px] px-1 rounded-full'>{carts.length}</span>}
-                            </div>}
-                            <div onClick={() => {navigate('/cart'); setIsMobileMenuOpen(false);}} className='relative flex flex-col items-center p-2 border border-gray-200 rounded'>
-                                <GiShoppingCart size={30} />
-                                <span className='text-xs'>Sepet</span>
-                            </div>
-                            <div onClick={() => setOpenMenu(!openMenu)} className='flex flex-col items-center p-2 border border-gray-200 rounded'>
-                                <CiUser size={30} />
-                                <span className='text-xs'>Hesabım</span>
-                            </div>
-                        </div>
-
-                        {/* Profil Menüsü (Mobil içinde açılırsa) */}
-                        {openMenu && (
-                            <div className='flex flex-col bg-gray-100 rounded overflow-hidden'>
-                                {menuItems.map((item, i) => (
-                                    <div onClick={() => menuFunc(item)} key={i} className='p-3 border-b border-white text-center text-sm font-bold'>{item.name}</div>
-                                ))}
-                            </div>
-                        )}
                     </div>
+
+                    <div className='grid grid-cols-2 gap-4'>
+
+                        {!edit && <div onClick={() => {navigate('/orders/me'); setIsMobileMenuOpen(false);}} className='flex flex-col items-center p-2 border border-gray-200 rounded'>
+
+                            <LiaShippingFastSolid size={30} />
+                            <span className='text-xs'>Sipariş Takibi</span>
+
+                        </div>}
+
+                        {!edit && <div onClick={() => {navigate('/favorite'); setIsMobileMenuOpen(false);}} className='relative flex flex-col items-center p-2 border border-gray-200 rounded'>
+
+                            <CiHeart size={30} />
+                            <span className='text-xs'>Favoriler</span>
+                            {carts?.length > 0 && <span className='bg-red-500 text-white text-[10px] px-1 rounded-full'>{carts.length}</span>}
+
+                        </div>}
+
+                        <div onClick={() => {navigate('/cart'); setIsMobileMenuOpen(false);}} className='relative flex flex-col items-center p-2 border border-gray-200 rounded'>
+
+                            <GiShoppingCart size={30} />
+                            <span className='text-xs'>Sepet</span>
+
+                        </div>
+
+                        <div onClick={() => setOpenMenu(!openMenu)} className='flex flex-col items-center p-2 border border-gray-200 rounded'>
+
+                            <CiUser size={30} />
+                            <span className='text-xs'>Hesabım</span>
+
+                        </div>
+
+                    </div>
+
+                    {openMenu && (<div className='flex flex-col bg-gray-100 rounded overflow-hidden'>
+
+                        {menuItems.map((item, i) => (
+
+                            <div onClick={() => menuFunc(item)} key={i} className='p-3 border-b border-white text-center text-sm font-bold'>{item.name}</div>
+                        ))}
+
+                    </div>)}
+
                 </div>
-            )}
+
+            </div> )}
+
         </div>
+
     );
 };
 
 
 export default Header;
-
 

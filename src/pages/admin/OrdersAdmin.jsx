@@ -86,142 +86,130 @@ const OrdersAdmin = () => {
 
                     <div className="p-6 bg-gray-50 min-h-screen relative">
 
-                    <h1 className="text-2xl font-bold mb-6 italic text-gray-800 border-b pb-2">Admin Sipariş Yönetimi</h1>
+                        <h1 className="text-2xl font-bold mb-6 italic text-gray-800 border-b pb-2">Admin Sipariş Yönetimi</h1>
 
-                    {loading ? ( <div className="flex justify-center py-20 italic text-gray-500 text-lg">Sipariş verileri yükleniyor...</div> ) : ( <div className="bg-white rounded-xl shadow-sm border overflow-x-auto">
+                        {loading ? ( <div className="flex justify-center py-20 italic text-gray-500 text-lg">Sipariş verileri yükleniyor...</div> ) : ( <div className="bg-white rounded-xl shadow-sm border overflow-x-auto">
 
-                        <table className="w-full text-left">
+                            <table className="w-full text-left">
 
-                            <thead className="bg-gray-50 border-b">
+                                <thead className="bg-gray-50 border-b">
 
-                                <tr>
+                                    <tr>
 
-                                    <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Sipariş No</th>
-                                    <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Müşteri</th>
-                                    <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Tarih</th>
-                                    <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Toplam</th>
-                                    <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Durum</th>
-                                    <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-right">Aksiyon</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Sipariş No</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Müşteri</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Tarih</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Toplam</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500">Durum</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-right">Aksiyon</th>
 
-                                </tr>
+                                    </tr>
 
-                            </thead>
+                                </thead>
 
-                            <tbody className="divide-y divide-gray-100">
+                                <tbody className="divide-y divide-gray-100">
 
-                            {[...orders].reverse().map((order) => ( <tr key={order._id} onClick={() => setSelectedOrder(order)} className="hover:bg-blue-50/50 cursor-pointer transition-all">
+                                    {[...orders].reverse().map((order) => ( <tr key={order._id} onClick={() => setSelectedOrder(order)} className="hover:bg-blue-50/50 cursor-pointer transition-all">
 
-                                    <td className="px-6 py-4 font-mono text-sm text-indigo-600 font-bold">#{order._id.slice(-6).toUpperCase()}</td>
+                                        <td className="px-6 py-4 font-mono text-sm text-indigo-600 font-bold">#{order._id.slice(-6).toUpperCase()}</td>
 
-                                    <td className="px-6 py-4">
+                                        <td className="px-6 py-4">
 
-                                        <div className="text-sm font-medium text-gray-900">{order.user?.name || 'Misafir'}</div>
-                                        <div className="text-xs text-gray-500">{order.user?.email}</div>
+                                            <div className="text-sm font-medium text-gray-900">{order.user?.name || 'Misafir'}</div>
+                                            <div className="text-xs text-gray-500">{order.user?.email}</div>
 
-                                    </td>
+                                        </td>
 
-                                    <td className="px-6 py-4 text-sm text-gray-600">
+                                        <td className="px-6 py-4 text-sm text-gray-600">
 
-                                        {new Date(order.createdAt).toLocaleDateString('tr-TR')}
+                                            {new Date(order.createdAt).toLocaleDateString('tr-TR')}
 
-                                    </td>
+                                        </td>
 
-                                    <td className="px-6 py-4 font-bold text-gray-700">{order.totalPrice.toLocaleString()} ₺</td>
+                                        <td className="px-6 py-4 font-bold text-gray-700">{order.totalPrice.toLocaleString()} ₺</td>
 
-                                    <td className="px-6 py-4">
+                                        <td className="px-6 py-4">
 
-                                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${getStatusStyle(order.orderStatus)}`}>
-                                            {order.orderStatus}
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${getStatusStyle(order.orderStatus)}`}>{order.orderStatus}</span>
 
-                                        </span>
+                                        </td>
 
-                                    </td>
+                                        <td className="px-6 py-4 text-right">
 
-                                    <td className="px-6 py-4 text-right">
+                                            <select onChange={(e) => handleStatusUpdate(order._id, e.target.value, e)} onClick={(e) => e.stopPropagation()}value={order.orderStatus} className="text-xs border rounded-md p-1.5 bg-white outline-none focus:ring-2 focus:ring-indigo-200" >
 
-                                        <select onChange={(e) => handleStatusUpdate(order._id, e.target.value, e)} onClick={(e) => e.stopPropagation()}value={order.orderStatus} className="text-xs border rounded-md p-1.5 bg-white outline-none focus:ring-2 focus:ring-indigo-200" >
+                                                <option value="Hazırlanıyor">Hazırlanıyor</option>
+                                                <option value="Onay Bekliyor">Onay Bekliyor</option>
+                                                <option value="Yolda">Yolda</option>
+                                                <option value="Teslim Edildi">Teslim Edildi</option>
+                                                <option value="İptal Edildi">İptal Edildi</option>
 
-                                            <option value="Hazırlanıyor">Hazırlanıyor</option>
-                                            <option value="Onay Bekliyor">Onay Bekliyor</option>
-                                            <option value="Yolda">Yolda</option>
-                                            <option value="Teslim Edildi">Teslim Edildi</option>
-                                            <option value="İptal Edildi">İptal Edildi</option>
+                                            </select>
 
-                                        </select>
+                                        </td>
 
-                                    </td>
+                                    </tr>))}
 
-                                </tr>
+                                </tbody>
 
-                            ))}
+                            </table>
 
-                        </tbody>
+                        </div>)}
 
-                    </table>
+                        {selectedOrder && (<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
 
-                </div>
+                            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh]">
 
-            )}
+                                <div className="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
 
-            {selectedOrder && (<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                                    <div>
 
-                <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh]">
-
-                    <div className="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
-
-                        <div>
-
-                            <h3 className="text-xl font-bold text-gray-800">Sipariş Ayrıntıları</h3>
-                            <p className="text-xs text-gray-500 font-mono">ID: {selectedOrder._id}</p>
-
-                        </div>
-
-                        <button onClick={() => {setSelectedOrder(null); setDeliveryImage("");}} className="p-2 hover:bg-gray-200 rounded-full transition-colors"><IoClose size={24} /></button>
-
-                    </div>
-
-                    <div className="p-6 overflow-y-auto space-y-8">
-
-                        <div>
-
-                            <h4 className="font-bold text-gray-700 mb-4 border-l-4 border-rose-500 pl-2">Sipariş İçeriği</h4>
-                            <div className="space-y-4">
-
-                                {selectedOrder.orderItems?.map((item, idx) => ( <div key={idx} className="bg-gray-50 border rounded-xl p-4">
-
-                                    <div className="flex items-center gap-4">
-
-                                        <img src={item.image} alt="" className="w-16 h-16 object-cover rounded-lg" />
-
-                                        <div className="flex-1">
-
-                                            <h5 className="font-bold text-gray-800">{item.name}</h5>
-                                            <p className="text-sm text-gray-500">{item.price} ₺ x {item.quantity}</p>
-
-                                        </div>
-
-                                        <div className="font-bold text-rose-600">{item.price * item.quantity} ₺</div>
+                                        <h3 className="text-xl font-bold text-gray-800">Sipariş Ayrıntıları</h3>
+                                        <p className="text-xs text-gray-500 font-mono">ID: {selectedOrder._id}</p>
 
                                     </div>
 
-                                    {item.note && (
-
-                                        <div className="mt-3 p-3 bg-white border-l-4 border-green-500 rounded-r-lg text-sm text-gray-700 italic flex items-start gap-2">
-
-                                            <CiStickyNote size={18} className="text-green-600 mt-0.5" />
-                                            <span><strong>Müşteri Notu:</strong> {item.note}</span>
-
-                                        </div>
-
-                                    )}
+                                    <button onClick={() => {setSelectedOrder(null); setDeliveryImage("");}} className="p-2 hover:bg-gray-200 rounded-full transition-colors"><IoClose size={24} /></button>
 
                                 </div>
 
-                            ))}
+                                <div className="p-6 overflow-y-auto space-y-8">
 
-                        </div>
+                                    <div>
 
-                    </div>
+                                        <h4 className="font-bold text-gray-700 mb-4 border-l-4 border-rose-500 pl-2">Sipariş İçeriği</h4>
+
+                                        <div className="space-y-4">
+
+                                            {selectedOrder.orderItems?.map((item, idx) => ( <div key={idx} className="bg-gray-50 border rounded-xl p-4">
+
+                                                <div className="flex items-center gap-4">
+
+                                                    <img src={item.image} alt="" className="w-16 h-16 object-cover rounded-lg" />
+
+                                                    <div className="flex-1">
+
+                                                        <h5 className="font-bold text-gray-800">{item.name}</h5>
+                                                        <p className="text-sm text-gray-500">{item.price} ₺ x {item.quantity}</p>
+
+                                                    </div>
+
+                                                    <div className="font-bold text-rose-600">{item.price * item.quantity} ₺</div>
+
+                                                </div>
+
+                                                {item.note && ( <div className="mt-3 p-3 bg-white border-l-4 border-green-500 rounded-r-lg text-sm text-gray-700 italic flex items-start gap-2">
+
+                                                    <CiStickyNote size={18} className="text-green-600 mt-0.5" />
+                                                    <span><strong>Müşteri Notu:</strong> {item.note}</span>
+
+                                                </div> )}
+
+                                            </div> ))}
+
+                                        </div>
+
+                                    </div>
 
                     {(selectedOrder.orderStatus === "Hazırlanıyor" || selectedOrder.orderStatus === "Onay Bekliyor") && ( <div className="bg-purple-50 p-6 rounded-2xl border-2 border-dashed border-purple-200">
 

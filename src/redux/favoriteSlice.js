@@ -1,21 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
-{/** const fetchFromLocalStorage = () => {
+const fetchFromLocalStorage = () => {
 
-    let favorite  = localStorage.getItem('cart');
-
-    if(cart){
-
-        return JSON.parse(localStorage.getItem('cart'));
-    }else{
-
-        return [];
-    }
+    let favorites = localStorage.getItem('favorites');
+    return favorites ? JSON.parse(favorites) : [];
 };
 
 const storeInLocalStorage = (data) => {
 
-    localStorage.setItem('cart', JSON.stringify(data));
+    localStorage.setItem('favorites', JSON.stringify(data));
 };
 
 const initialState = {
@@ -25,50 +18,40 @@ const initialState = {
 
 export const favoriteSlice = createSlice({
 
-    name: 'cart',
+    name: 'favorites',
     initialState,
     reducers: {
-  
-        addToFavorite: (state, action) => {
 
-            const isItemCart = state.favorites.find(cart => cart.id === action.payload.id);
+        toggleFavorite: (state, action) => {
 
-            if(isItemCart){
+            const productId = action.payload._id; 
+            const isItemFavorite = state.favorites.find(item => item._id === productId);
 
-                const tempCart = state.favorites.map(item => {
+            if (isItemFavorite) {
 
-                    if(item.id === action.payload.id){
-
-                        let tempQuantity = item.quantity + action.payload.quantity;
-                        return { ...item, quantity: tempQuantity }
-                    }else{
-
-                        return item;
-                    }
-                })
-
-                state.favorites = tempCart;
-                storeInLocalStorage(state.favorites);
-            }else{
+                state.favorites = state.favorites.filter(item => item._id !== productId);
+            } else {
 
                 state.favorites.push(action.payload);
-                storeInLocalStorage(state.favorites);
             }
-        },
-        removeFromCart: (state, action) => {
 
-            const tempCart = state.favorites.filter(item => item.id !== action.payload);
-            state.favorites = tempCart;
             storeInLocalStorage(state.favorites);
         },
-        clearCart: (state, action) => {
+        removeFromFavorites: (state, action) => {
 
-            state.favorites = [];
-            storeInLocalStorage(state.favorites);
-        },
+            state.favorites = state.favorites.filter(item => (item._id !== action.payload) && (item.id !== action.payload)
+        );
+
+        localStorage.setItem('favorites', JSON.stringify(state.favorites));
     },
+    clearFavorites: (state) => {
+
+        state.favorites = [];
+        storeInLocalStorage(state.favorites);
+    }
+},
+
 });
 
-export const { addToCart, removeFromCart, clearCart } = favoriteSlice.actions;
-
-export default favoriteSlice.reducer; */}
+export const { toggleFavorite, removeFromFavorites, clearFavorites } = favoriteSlice.actions;
+export default favoriteSlice.reducer;

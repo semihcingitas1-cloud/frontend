@@ -24,7 +24,6 @@ export const getMyOrders = createAsyncThunk('getMyOrders', async () => {
     return data;
 });
 
-// 3. Admin: Tüm Siparişleri Getir
 export const getAllOrders = createAsyncThunk('getAllOrders', async () => {
     const token = localStorage.getItem("token");
     const { data } = await axios.get(`${BASE_URL}/admin/orders`, {

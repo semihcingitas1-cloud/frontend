@@ -1,4 +1,5 @@
 import React from 'react';
+import Map from './Map';
 
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaLinkedinIn, FaSnapchatGhost } from "react-icons/fa";
 import { FaXTwitter, FaPinterestP, FaReddit } from "react-icons/fa6";
@@ -84,17 +85,7 @@ const Footer = () => {
 
             </div>
 
-            <div className='w-full lg:w-1/2 flex flex-col items-center gap-4'>
-
-                <div className='text-md md:text-lg font-medium text-center bg-gray-100 p-3 rounded-lg w-full'> 📍 Emlak Konut Dükkanları B/2 No:46 Merkez/Nevşehir </div>
-
-                <div className='w-full overflow-hidden rounded-xl border-2 border-gray-600 shadow-lg'>
-
-                    <iframe className='w-full h-64 lg:h-80' src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3113.46!2d34.71!3d38.62!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDM3JzEyLjAiTiAzNMKwNDInMzYuMCJF!5e0!3m2!1str!2str!4v1625000000000!5m2!1str!2str' loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Adres Haritası"></iframe>
-
-                </div>
-
-            </div>
+            <Map />
 
         </footer>
 

@@ -174,9 +174,7 @@ const DashboardAdmin = () => {
                                     perc: 20,
                                     color: 'bg-amber-500'
 
-                                }]
-
-                                .map((cat, i) => ( <div key={i}>
+                                }].map((cat, i) => ( <div key={i}>
 
                                     <div className="flex justify-between text-sm mb-1">
 

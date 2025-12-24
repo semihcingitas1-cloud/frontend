@@ -34,6 +34,7 @@ import ProtectedRout from './components/ProtectedRout';
 
 import { profile } from './redux/userSlice';
 
+import AnalyticsAdmin from './pages/admin/AnalyticsAdmin';
 import DashboardAdmin from './pages/admin/DashboardAdmin';
 import OrdersAdmin from './pages/admin/OrdersAdmin';
 import MessagesAdmin from './pages/admin/MessagesAdmin';
@@ -42,6 +43,8 @@ import ProductsAdmin from './pages/admin/ProductsAdmin';
 import SettingsAdmin from './pages/admin/SettingsAdmin';
 
 import ChatWindow from './pages/ChatWindow';
+import Blog from './pages/Blog';
+import BlogDetail from './pages/BlogDetail';
 
 function App() {
 
@@ -65,6 +68,7 @@ function App() {
       <Routes>
 
         <Route exact path='/' element={<Home />} />
+
         <Route exact path='/cart' element={<Cart />} />
         <Route exact path='/favorite' element={<Favorite />} />
 
@@ -84,6 +88,7 @@ function App() {
 
         <Route element={<ProtectedRout isAdmin={true} user={user} />}>
 
+          <Route exact path='/admin/analyticsadmin' element={<AnalyticsAdmin />} />
           <Route exact path='/admin/dashboardadmin' element={<DashboardAdmin />} />
           <Route exact path='/admin/ordersadmin' element={<OrdersAdmin />} />
           <Route exact path='/admin/messagesadmin' element={<MessagesAdmin />} />
@@ -97,6 +102,8 @@ function App() {
         
         <Route exact path='/products' element={<Products />} />
         <Route exact path='/product/:id' element={<Detail />} />
+        <Route exact path='/blog' element={<Blog />} />
+        <Route exact path='/blogs' element={<BlogDetail />} />
 
         <Route path='*' element={<Page404 />} />
 

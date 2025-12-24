@@ -7,6 +7,7 @@ import { CiDollar, CiBoxes, CiMail, CiSettings, CiLogout } from "react-icons/ci"
 import { GiShoppingCart } from "react-icons/gi";
 import { PiSlideshow } from "react-icons/pi";
 import { ImBlog } from "react-icons/im";
+import { TbReportAnalytics } from "react-icons/tb";
 
 const AdminPanel = () => {
 
@@ -21,10 +22,12 @@ const AdminPanel = () => {
         { name: 'Bloglar', path: '/admin/blogsadmin', icon: <ImBlog size={25} /> },
         { name: 'Slider', path: '/admin/slideradmin', icon: <PiSlideshow size={25} /> },
         { name: 'Ürünler', path: '/admin/productsadmin', icon: <CiBoxes size={25} /> },
+        { name: 'Analizler', path: '/admin/analyticsadmin', icon: <TbReportAnalytics size={25} /> },
         { name: 'Ayarlar', path: '/admin/settingsadmin', icon: <CiSettings size={25} /> },
     ];
 
     const logout = () => {
+
         localStorage.removeItem("token");
         dispatch(logoutUser());
         navigate('/');
