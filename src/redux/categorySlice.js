@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Tüm Kategorileri Getir
 export const getAllCategories = createAsyncThunk("getAllCategories", async () => {
-    const { data } = await axios.get("http://localhost:4000/categories");
+    const { data } = await axios.get("https://backend-d72l.onrender.com/categories");
     return data.categories;
 });
 
@@ -11,7 +11,7 @@ export const getAllCategories = createAsyncThunk("getAllCategories", async () =>
 export const createCategory = createAsyncThunk("createCategory", async (categoryData, { rejectWithValue }) => {
     try {
         const token = localStorage.getItem('token');
-        const { data } = await axios.post("http://localhost:4000/admin/category/new", categoryData, {
+        const { data } = await axios.post("https://backend-d72l.onrender.com/admin/category/new", categoryData, {
             headers: { Authorization: `Bearer ${token}` }
         });
         return data.category;
@@ -23,7 +23,7 @@ export const createCategory = createAsyncThunk("createCategory", async (category
 // Kategori Sil (Admin)
 export const deleteCategory = createAsyncThunk("deleteCategory", async (id) => {
     const token = localStorage.getItem('token');
-    await axios.delete(`http://localhost:4000/admin/category/${id}`, {
+    await axios.delete(`https://backend-d72l.onrender.com/admin/category/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
     });
     return id;
@@ -67,4 +67,5 @@ const categorySlice = createSlice({
 });
 
 export const { clearStatus } = categorySlice.actions;
+
 export default categorySlice.reducer;
