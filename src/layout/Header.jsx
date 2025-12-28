@@ -120,7 +120,7 @@ const Header = ({ edit }) => {
                             {openMenu && (
                                 <div className='absolute right-0 top-full mt-2 w-[110px] shadow-lg border border-black z-50'>
                                     {menuItems.map((item, i) => (
-                                        <div onClick={() => menuFunc(item)} key={i} className='py-2 hover:bg-gray-100 border-b last:border-0 cursor-pointer text-sm text-center'>{item.name}</div>
+                                        <div onClick={() => menuFunc(item)} key={i} className='py-2 bg-white hover:bg-gray-100 border-b last:border-0 cursor-pointer text-sm text-center'>{item.name}</div>
                                     ))}
                                 </div>
                             )}

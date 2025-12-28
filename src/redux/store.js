@@ -7,6 +7,7 @@ import cartSlice from './cartSlice';
 import favoriteSlice from './favoriteSlice';
 import orderSlice from './orderSlice';
 import sliderSlice from './sliderSlice';
+import categoryReducer from './categorySlice';
 
 export default configureStore({
 
@@ -20,5 +21,6 @@ export default configureStore({
         favorite: favoriteSlice,
         orders: orderSlice,
         slider: sliderSlice,
+        category: categoryReducer,
     },
 });

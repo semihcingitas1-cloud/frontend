@@ -6,6 +6,7 @@ import {
   Clock, MapPin, Store, CreditCard, Activity, AlertCircle,
   Hash, Image as ImageIcon
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const SettingsAdmin = () => {
   const [activeTab, setActiveTab] = useState('profil');
@@ -19,21 +20,25 @@ const SettingsAdmin = () => {
     { id: 'magaza', name: 'Mağaza & Ödeme', icon: <Store size={20} /> },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <div className='flex min-h-screen bg-[#FDFCFB] font-sans'>
-      {/* SOL MENÜ (Layout'tan gelen sabit sidebar) */}
+
       <AdminPanel />
       
-      {/* ANA İÇERİK ALANI */}
       <div className="flex-1 p-4 md:p-10 lg:p-12 overflow-y-auto">
+
         <div className="max-w-6xl mx-auto">
           
-          {/* 1. ÜST BİLGİ VE SİSTEM DURUMU ÇUBUĞU */}
           <div className="bg-white rounded-[2.5rem] p-6 mb-8 border border-gray-100 shadow-sm flex flex-wrap items-center justify-between gap-6 transition-all hover:shadow-md">
+
             <div className="flex items-center gap-5">
+
               <div className="w-14 h-14 bg-rose-50 rounded-[1.2rem] flex items-center justify-center text-rose-500 shadow-inner">
                 <Activity size={28} />
               </div>
+
               <div>
                 <h1 className="text-2xl font-black text-gray-800 tracking-tight">Kontrol Merkezi</h1>
                 <p className="text-xs text-green-500 font-bold flex items-center gap-1.5 uppercase tracking-widest">
@@ -176,7 +181,6 @@ const SettingsAdmin = () => {
                 </div>
               )}
 
-              {/* SİTE AYARLARI */}
               {activeTab === 'site' && (
                 <div className="animate-fadeIn space-y-10">
                   <div className="p-10 border-4 border-dashed border-gray-50 rounded-[3rem] text-center group hover:border-rose-100 transition-all">
@@ -201,7 +205,6 @@ const SettingsAdmin = () => {
                 </div>
               )}
 
-              {/* GÜVENLİK AYARLARI */}
               {activeTab === 'guvenlik' && (
                 <div className="animate-fadeIn space-y-8">
                   <div className="flex items-center gap-4">
@@ -222,7 +225,6 @@ const SettingsAdmin = () => {
                 </div>
               )}
 
-              {/* ALT AKSİYON ÇUBUĞU (SABİT) */}
               <div className="mt-16 pt-10 border-t border-gray-50 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-3 bg-gray-50 px-5 py-2.5 rounded-full">
                   <Hash size={14} className="text-rose-400" />
@@ -230,7 +232,7 @@ const SettingsAdmin = () => {
                 </div>
                 <div className="flex gap-4 w-full md:w-auto">
                   <button className="flex-1 md:px-10 py-4 text-sm font-bold text-gray-400 hover:text-gray-600 transition-all uppercase">Vazgeç</button>
-                  <button className="flex-1 md:flex-none flex items-center justify-center gap-3 bg-gray-900 text-white px-12 py-5 rounded-[1.8rem] font-black hover:bg-rose-500 transition-all duration-500 shadow-2xl active:scale-95 group">
+                  <button onClick={() => navigate('/admin/categoriesadmin')} className="flex-1 md:flex-none flex items-center justify-center gap-3 bg-gray-900 text-white px-12 py-5 rounded-[1.8rem] font-black hover:bg-rose-500 transition-all duration-500 shadow-2xl active:scale-95 group">
                     <Save size={20} className="group-hover:translate-y-[-2px] transition-transform" />
                     <span className="uppercase tracking-widest text-sm">Ayarları Güncelle</span>
                   </button>

@@ -175,14 +175,14 @@ const ProfilePage = () => {
     return (
 
         <div className="max-w-6xl mx-auto p-4 md:p-8 flex flex-col md:flex-row gap-8 bg-gray-50 min-h-screen">
-            {/* SOL MENÜ - SIDEBAR */}
+
             <div className="w-full md:w-1/4 bg-white rounded-xl shadow-sm p-6 h-fit">
 
                 <div className="flex flex-col items-center mb-8">
 
                     <div className="w-30 h-30 bg-rose-100 rounded-full flex items-center justify-center text-rose-500 mt-10 mb-3">
 
-                        {user?.user ? <img className='rounded-full absolute' src={user?.user?.avatar?.url || 'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg'} /> : <User className='absolute' size={40} />}
+                        {user?.user ? <img className='rounded-full absolute w-40' src={user?.user?.avatar?.url || 'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg'} /> : <User className='absolute' size={40} />}
                         <div onClick={() => {}} className='relative text-gray-500 hover:text-gray-700 cursor-pointer'><CiCirclePlus size={50} /></div>
 
                     </div>
@@ -205,9 +205,9 @@ const ProfilePage = () => {
                 </nav>
 
             </div>
-            {/* SAĞ İÇERİK ALANI */}
+
             <div className="flex-1 bg-white rounded-xl shadow-sm p-6 md:p-8">
-            {/* SIPARIŞLERİM BÖLÜMÜ */}
+
             {activeTab === 'siparislerim' && ( <div>
 
                 <h3 className="text-2xl font-bold mb-6">Son Siparişlerim</h3>
@@ -252,8 +252,6 @@ const ProfilePage = () => {
 
         </div>)}
 
-        {/* ADRESLERİM BÖLÜMÜ */}
-
         {activeTab === 'adreslerim' && ( <div>
 
             <div className="flex justify-between items-center mb-6">
@@ -284,7 +282,7 @@ const ProfilePage = () => {
             </div>
 
         </div>)}
-        {/* GÜVENLİK BÖLÜMÜ */}
+
         {activeTab === 'guvenlik' && ( <div>
 
             <h3 className="text-2xl font-bold mb-6">Güvenlik Ayarları</h3>

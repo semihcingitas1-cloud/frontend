@@ -12,7 +12,7 @@ const Modal = ({title, content, onClick, btnName}) => {
 
         <div className='mt-10 w-full h-full fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center'>
 
-            <div className='w-[500px] bg-white border p-4 rounded-md'>
+            <div className='mt-10 w-[500px] bg-white border p-4 rounded-md'>
 
                 <div className='flex items-center justify-between'>
 

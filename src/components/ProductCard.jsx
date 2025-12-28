@@ -67,9 +67,9 @@ const ProductCard = ({product, edit}) => {
             {product?.stock > 0 ? <div></div> : <div className='w-full flex items-center justify-center text-red-600 text-xl bg-slate-100 absolute top-0'>Stokta Yok</div>}
             <div className='p-1 relative left-2 -top-14 w-min bg-slate-50 flex items-center gap-1 text-sm rounded-lg'><CiStar size={20} color='yellow' />{product?.rating}</div>
             <div onClick={handleFavoriteClick} className='top-1 right-1 absolute cursor-pointer'>{isFavorite ? <IoIosHeart size={30} className='p-1 text-rose-500 border-white border-2 rounded-full' /> : <CiHeart size={30} className='text-white p-1 bg-rose-500 rounded-full' />}</div>
-            <div className='text-center transform transition-transform duration-300 translate-y-4 group-hover:-translate-y-0'>{product?.name}</div>
-            <div className='text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>{product?.price} ₺</div>
-            {!edit && <div className='text-green-400 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>Aynı gün Teslimat</div>}
+            <div className='text-center transform transition-transform duration-300 translate-y-1 group-hover:-translate-y-3'>{product?.name}</div>
+            <div className='text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-3'>{product?.price} ₺</div>
+            {!edit && <div className='text-green-400 text-center opacity-0 -translate-y-3 group-hover:opacity-100 transition-opacity duration-300'>Aynı gün Teslimat</div>}
 
             {edit && <div className='w-full flex items-center justify-around'>
 

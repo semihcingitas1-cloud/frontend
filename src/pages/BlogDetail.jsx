@@ -2,7 +2,6 @@ import React from 'react';
 import { FaCalendarAlt, FaTag, FaArrowLeft, FaShareAlt, FaUser } from 'react-icons/fa';
 
 const BlogDetail = () => {
-    // Statik Veri (Backend bağlamadan önce test etmen için)
     const post = {
         title: "Evde Bakımı En Kolay 5 Çiçek",
         category: "Bakım Rehberi",
@@ -27,7 +26,6 @@ const BlogDetail = () => {
 
     return (
         <div className="bg-white min-h-screen pb-20">
-            {/* Üst Kısım: Resim ve Başlık */}
             <div className="relative h-[450px] w-full">
                 <img 
                     src={post.images[0].url} 
@@ -48,7 +46,6 @@ const BlogDetail = () => {
             </div>
 
             <div className="max-w-4xl mx-auto px-6 mt-12">
-                {/* Meta Bilgiler */}
                 <div className="flex flex-wrap items-center gap-6 text-gray-500 text-sm mb-8 border-b pb-6">
                     <div className="flex items-center gap-2">
                         <FaCalendarAlt className="text-rose-500" />
@@ -63,7 +60,6 @@ const BlogDetail = () => {
                     </button>
                 </div>
 
-                {/* İçerik */}
                 <div className="prose prose-lg max-w-none text-gray-800">
                     <p className="text-2xl text-gray-500 leading-relaxed mb-8 italic border-l-8 border-rose-100 pl-6">
                         {post.excerpt}
@@ -72,7 +68,6 @@ const BlogDetail = () => {
                         {post.content}
                     </div>
 
-                    {/* Ekstra Resimler */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-12">
                         {post.images.map((img, idx) => (
                             <img key={idx} src={img.url} className="rounded-3xl shadow-xl w-full h-72 object-cover" alt="Detay" />
@@ -80,7 +75,6 @@ const BlogDetail = () => {
                     </div>
                 </div>
 
-                {/* Yorumlar Bölümü (Statik) */}
                 <div className="mt-20 border-t pt-10">
                     <h3 className="text-3xl font-bold mb-10 text-gray-900">Okuyucu Yorumları ({post.comments.length})</h3>
                     <div className="space-y-8">

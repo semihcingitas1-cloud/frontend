@@ -45,6 +45,8 @@ import SettingsAdmin from './pages/admin/SettingsAdmin';
 import ChatWindow from './pages/ChatWindow';
 import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
+import BlogsAdmin from './pages/admin/BlogsAdmin';
+import CategoryAdmin from './pages/admin/CategoryAdmin';
 
 function App() {
 
@@ -92,9 +94,11 @@ function App() {
           <Route exact path='/admin/dashboardadmin' element={<DashboardAdmin />} />
           <Route exact path='/admin/ordersadmin' element={<OrdersAdmin />} />
           <Route exact path='/admin/messagesadmin' element={<MessagesAdmin />} />
+          <Route exact path='/admin/blogsadmin' element={<BlogsAdmin />} />
           <Route exact path='/admin/slideradmin' element={<SliderAdmin />} />
           <Route exact path='/admin/productsadmin' element={<ProductsAdmin />} />
           <Route exact path='/admin/settingsadmin' element={<SettingsAdmin />} />
+          <Route exact path="/admin/categoriesadmin" element={<CategoryAdmin />} />
 
           <Route exact path='/admin/update/:id' element={<UpdateProductPage />} />
 

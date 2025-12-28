@@ -56,7 +56,7 @@ const Payment = () => {
     return (
 
         <div className='max-w-6xl mx-auto p-5 flex flex-col md:flex-row gap-8'>
-            {/* SOL TARAF: Ödeme Yöntemleri */}
+
             <div className='flex-1 space-y-6'>
 
                 <h2 className='text-2xl font-bold'>Ödeme Yöntemi Seçin</h2>
