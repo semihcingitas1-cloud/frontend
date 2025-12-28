@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://backend-d72l.onrender.com";
 
 export const createOrder = createAsyncThunk('createOrder', async (orderData) => {
 
@@ -136,3 +136,4 @@ const orderSlice = createSlice({
 
 export const { clearOrderErrors } = orderSlice.actions;
 export default orderSlice.reducer;
+
