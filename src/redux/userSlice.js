@@ -78,7 +78,7 @@ export const register = createAsyncThunk(
             body: JSON.stringify(data)
         }
 
-        const response = await fetch(`http://localhost:4000/register`, requestOptions);
+        const response = await fetch(`https://backend-d72l.onrender.com/register`, requestOptions);
         
         if (!response.ok) {
 
@@ -103,7 +103,7 @@ export const login = createAsyncThunk(
             body: JSON.stringify({email: data.email, password: data.password})
         }
 
-        const response = await fetch(`http://localhost:4000/login`, requestOptions);
+        const response = await fetch(`https://backend-d72l.onrender.com/login`, requestOptions);
 
         if (!response.ok) {
 
@@ -131,7 +131,7 @@ export const forgotPassword = createAsyncThunk(
             body: JSON.stringify({email})
         }
 
-        const response = await fetch(`http://localhost:4000/forgotPassword`, requestOptions);
+        const response = await fetch(`https://backend-d72l.onrender.com/forgotPassword`, requestOptions);
         
         if (!response.ok) {
 
@@ -156,7 +156,7 @@ export const resetPassword = createAsyncThunk(
             body: JSON.stringify({password: params.password})
         }
 
-        const response = await fetch(`http://localhost:4000/reset/${params.token}`, requestOptions);
+        const response = await fetch(`https://backend-d72l.onrender.com/reset/${params.token}`, requestOptions);
 
         if (!response.ok) {
             let error = await response.json();
@@ -180,7 +180,7 @@ export const profile = createAsyncThunk(
             return rejectWithValue({ message: "Oturum açılmamış. Token bulunamadı." });
         }
 
-        const response = await fetch(`http://localhost:4000/profile`, { headers: {
+        const response = await fetch(`https://backend-d72l.onrender.com/profile`, { headers: {
 
             authorization: `Bearer ${token.trim()}` 
         }});
@@ -206,7 +206,7 @@ export const addAddress = createAsyncThunk('addAddress', async (addressData) => 
     const token = localStorage.getItem('token');
 
     const { data } = await axios.post(
-        `http://localhost:4000/profile/address/new`, 
+        `https://backend-d72l.onrender.com/profile/address/new`, 
         addressData, 
         {
             headers: {
@@ -224,7 +224,7 @@ export const deleteAddress = createAsyncThunk('deleteAddress', async (id) => {
     const token = localStorage.getItem('token');
 
     const { data } = await axios.delete(
-        `http://localhost:4000/profile/address/${id}`, 
+        `https://backend-d72l.onrender.com/profile/address/${id}`, 
         {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -340,3 +340,4 @@ export const { logoutUser } = userSlice.actions;
 
 
 export default userSlice.reducer;
+
