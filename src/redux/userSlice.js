@@ -1,63 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-{/**
-export const userSlice = createSlice({
-
-    extraReducers: (builder) => {
-
-        builder.addCase(register.fulfilled, (state, action) => {
-            state.isAuth = true;
-            state.loading = false;
-            state.user = action.payload;
-        });
-        builder.addCase(register.rejected, (state, action) => {
-            state.loading = false;
-            state.isAuth = false;
-        });
-        builder.addCase(login.pending, (state, action) => {
-            state.loading = true;
-            state.isAuth = false;
-        });
-        builder.addCase(login.fulfilled, (state, action) => {
-            state.isAuth = true;
-            state.loading = false;
-            state.user = action.payload;
-        });
-        builder.addCase(login.rejected, (state, action) => {
-            state.loading = false;
-            state.isAuth = false;
-            localStorage.removeItem("token");
-        });
-        builder.addCase(profile.pending, (state, action) => {
-            state.loading = true;
-            state.isAuth = false;
-        });
-        builder.addCase(profile.fulfilled, (state, action) => {
-            state.isAuth = true;
-            state.loading = false;
-            state.user = action.payload;
-        });
-        builder.addCase(profile.rejected, (state, action) => {
-            state.isAuth = false;
-            state.loading = false;
-            state.user = {};
-        });
-        builder.addCase(forgotPassword.pending, (state, action) => {
-            state.loading = true;
-        });
-        builder.addCase(forgotPassword.fulfilled, (state, action) => {
-            state.loading = false;
-        });
-        builder.addCase(resetPassword.pending, (state, action) => {
-            state.loading = true;
-        });
-        builder.addCase(resetPassword.fulfilled, (state, action) => {
-            state.loading = false;
-        });
-    },
-});*/}
-
 const initialState = {
     user: {},
     isAuth: false,
@@ -340,4 +283,5 @@ export const { logoutUser } = userSlice.actions;
 
 
 export default userSlice.reducer;
+
 
