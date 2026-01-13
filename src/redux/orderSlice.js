@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://backend-d72l.onrender.com";
 
 export const createOrder = createAsyncThunk('createOrder', async (orderData) => {
 
@@ -51,7 +51,7 @@ export const uploadOrderPhoto = createAsyncThunk("uploadOrderPhoto", async ({ id
     try {
 
         const token = localStorage.getItem("token");
-        const { data } = await axios.put(`http://localhost:4000/admin/order/upload-photo/${id}`, { image }, {
+        const { data } = await axios.put(`https://backend-d72l.onrender.com/admin/order/upload-photo/${id}`, { image }, {
 
             headers: { "Authorization": `Bearer ${token}` }
         });
@@ -70,7 +70,7 @@ export const approveOrder = createAsyncThunk("approveOrder", async (id, { reject
     try {
 
         const token = localStorage.getItem("token");
-        const { data } = await axios.put(`http://localhost:4000/order/approve/${id}`, {}, {
+        const { data } = await axios.put(`https://backend-d72l.onrender.com/order/approve/${id}`, {}, {
             headers: { "Authorization": `Bearer ${token}` }
         });
 
@@ -86,15 +86,14 @@ export const approveOrder = createAsyncThunk("approveOrder", async (id, { reject
 const orderSlice = createSlice({
     name: 'orders',
     initialState: {
-        orders: [],      // Admin için tüm siparişler
-        myOrders: [],    // Kullanıcı için kendi siparişleri
-        orderDetail: {}, // Tekil sipariş detayı (opsiyonel)
+        orders: [],
+        myOrders: [],
+        orderDetail: {},
         loading: false,
-        success: false,  // Sipariş başarıyla oluşturuldu mu kontrolü
+        success: false, 
         error: null
     },
     reducers: {
-        // Sipariş başarılı olduktan sonra state'i sıfırlamak için
         clearOrderErrors: (state) => {
             state.error = null;
             state.success = false;
@@ -102,29 +101,25 @@ const orderSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // --- createOrder ---
             .addCase(createOrder.pending, (state) => { state.loading = true; })
             .addCase(createOrder.fulfilled, (state, action) => {
                 state.loading = false;
                 state.success = true;
                 state.myOrders.push(action.payload.order);
             })
-            
-            // --- getMyOrders ---
+
             .addCase(getMyOrders.pending, (state) => { state.loading = true; })
             .addCase(getMyOrders.fulfilled, (state, action) => {
                 state.loading = false;
                 state.myOrders = action.payload.orders;
             })
 
-            // --- getAllOrders (Admin) ---
             .addCase(getAllOrders.pending, (state) => { state.loading = true; })
             .addCase(getAllOrders.fulfilled, (state, action) => {
                 state.loading = false;
                 state.orders = action.payload.orders;
             })
 
-            // --- updateOrderStatus (Admin) ---
             .addCase(updateOrderStatus.fulfilled, (state, action) => {
                 const index = state.orders.findIndex(order => order._id === action.payload.order._id);
                 if (index !== -1) {
@@ -136,3 +131,4 @@ const orderSlice = createSlice({
 
 export const { clearOrderErrors } = orderSlice.actions;
 export default orderSlice.reducer;
+
