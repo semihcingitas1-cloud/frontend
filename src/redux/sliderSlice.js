@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const createSlider = createAsyncThunk("createSlider", async (sliderData) => {
     const token = localStorage.getItem('token');
-    const { data } = await axios.post("http://localhost:4000/admin/slider/new", sliderData, {
+    const { data } = await axios.post("https://backend-d72l.onrender.com/admin/slider/new", sliderData, {
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         withCredentials: true
     });
@@ -12,7 +12,7 @@ export const createSlider = createAsyncThunk("createSlider", async (sliderData) 
 
 export const getAllSliders = createAsyncThunk("getAllSliders", async () => {
     const token = localStorage.getItem('token'); // Token'ı al
-    const { data } = await axios.get("http://localhost:4000/sliders?admin=true", {
+    const { data } = await axios.get("https://backend-d72l.onrender.com/sliders?admin=true", {
         headers: { "Authorization": `Bearer ${token}` } // Header'a ekle
     });
     return data.sliders;
@@ -20,7 +20,7 @@ export const getAllSliders = createAsyncThunk("getAllSliders", async () => {
 
 export const deleteSlider = createAsyncThunk("deleteSlider", async (id) => {
     const token = localStorage.getItem('token');
-    const { data } = await axios.delete(`http://localhost:4000/admin/slider/${id}`, {
+    const { data } = await axios.delete(`https://backend-d72l.onrender.com/admin/slider/${id}`, {
         headers: { "Authorization": `Bearer ${token}` },
         withCredentials: true
     });
@@ -31,7 +31,7 @@ export const updateSliderStatus = createAsyncThunk("updateSliderStatus", async (
 
     const token = localStorage.getItem('token');
 
-    const { data } = await axios.put(`http://localhost:4000/admin/slider/${id}`, 
+    const { data } = await axios.put(`https://backend-d72l.onrender.com/admin/slider/${id}`, 
 
         { isActive: !isActive }, {
 
@@ -102,4 +102,5 @@ const sliderSlice = createSlice({
 });
 
 export const { clearErrors, resetSliderStatus } = sliderSlice.actions;
+
 export default sliderSlice.reducer;
