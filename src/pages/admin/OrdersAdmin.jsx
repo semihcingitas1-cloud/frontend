@@ -6,7 +6,7 @@ import { IoClose, IoCloudUploadOutline } from "react-icons/io5";
 import { CiStickyNote } from "react-icons/ci";
 import io from 'socket.io-client';
 
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect("https://backend-d72l.onrender.com");
 
 const OrdersAdmin = () => {
 
@@ -363,5 +363,6 @@ const OrdersAdmin = () => {
     );
 
 };
+
 
 export default OrdersAdmin;
