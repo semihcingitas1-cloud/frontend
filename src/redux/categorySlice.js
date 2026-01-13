@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = "http://localhost:4000";
+const API_URL = "https://backend-d72l.onrender.com";
 
-// --- KATEGORİ ACTIONS ---
 export const getAllCategories = createAsyncThunk("getAllCategories", async () => {
     const { data } = await axios.get(`${API_URL}/categories`);
     return data.categories;
@@ -110,4 +109,5 @@ const categorySlice = createSlice({
 });
 
 export const { clearStatus } = categorySlice.actions;
+
 export default categorySlice.reducer;
