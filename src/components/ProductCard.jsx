@@ -181,7 +181,7 @@ const ProductCard = ({product, edit}) => {
 
                 {product?.images?.map((image, i) => (
 
-                   <img className='w-full h-[300px] object-cover' key={i} src={image.url} />
+                   <img className='w-full h-[300px] object-cover' key={i} src={image.url.replace("/upload/", "/upload/f_auto,q_auto,w_600/")} alt={product?.product?.name} title={product?.product?.name} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : "low"} />
                 ))}
 
             </Slider>
@@ -204,5 +204,6 @@ const ProductCard = ({product, edit}) => {
         </div>
     );
 };
+
 
 export default ProductCard;
