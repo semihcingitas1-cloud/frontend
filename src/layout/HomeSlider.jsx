@@ -28,66 +28,32 @@ const HomeSlider = () => {
         cssEase: "linear"
     };
 
-    const sliderItem = [
-
-        {
-
-            name: 'slide1',
-            url: 'https://evacicekevi.com/assets/images/statics/nevsehir-cicekcileri.jpg',
-            navigation: '/slider1'
-
-        },
-        {
-
-            name: 'slide2',
-            url: 'https://evacicekevi.com/assets/images/statics/nevsehir-cicek-gonder.jpg',
-            navigation: '/slider2'
-
-        },
-        {
-
-            name: 'slide3',
-            url: 'https://evacicekevi.com/assets/images/statics/nevsehir-cicekcisi.jpg',
-            navigation: '/slider3'
-
-        },
-        {
-
-            name: 'slide4',
-            url: 'https://evacicekevi.com/assets/images/statics/nevsehir-ucuz-cicek.jpg',
-            navigation: '/slider4'
-
-        },
-
-    ];
-
-    
-
     return (
-<div className='flex items-center justify-center my-6'>
-            <div className='w-full lg:w-11/12 overflow-hidden rounded-2xl shadow-lg'>
+
+        <div className='flex items-center justify-center my-6'>
+
+            <div className='w-full lg:w-11/12 overflow-hidden rounded-2xl shadow-lg min-h-[250px] md:min-h-[450px] lg:min-h-[500px]'>
+
                 {loading ? (
+
                     <div className='w-full flex justify-center h-64 items-center bg-gray-50'>
+
                         <div className={`w-12 h-12 rounded-full border-4 border-gray-200 border-t-rose-400 animate-spin`}></div>
+
                     </div>
-                ) : (
+
+                    ) : (
+
                     <Slider {...settings}>
-                        {sliders && sliders.map((item, i) => (
-                            <div 
-                                key={item._id} 
-                                className='outline-none cursor-pointer'
-                                onClick={() => navigate(item.link)} // Admin panelinde verdiğin linke gider
-                            >
-                                <img 
-                                    className='w-full object-cover max-h-[500px]' 
-                                    src={item.image.url} // Cloudinary'den gelen URL
-                                    alt={item.title || "Kampanya"} 
-                                    loading={i === 0 ? "eager" : "lazy"} 
-                                />
-                            </div>
-                        ))}
+
+                        {sliders && sliders.map((item, i) => ( <div key={item._id} className='outline-none cursor-pointer' onClick={() => navigate(item.link)}>
+
+                            <img className='w-full object-cover max-h-[500px]' src={item.image.url.replace("/upload/", "/upload/f_auto,q_auto,w_1600/")} alt={item.title || "Kampanya"} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : "low"}/>
+                        </div>))}
+
                     </Slider>
                 )}
+
             </div>
 
         </div>
