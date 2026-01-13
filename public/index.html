@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="tr-TR">
 
 <head>
 
@@ -8,8 +8,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  
+
+  <meta name="description" content="Flora Haven: Doğanın zarif sığınağı. En taze çiçek tasarımları, özel gün aranjmanları ve aynı gün teslimat seçeneğiyle sevdiklerinize mutluluk gönderin." />
+  <meta name="keywords" content="çiçek, çiçek siparişi, taze çiçek, hediye çiçek, flora haven, aynı gün teslimat çiçek" />
+  <meta name="author" content="Flora Haven" />
+
+  <meta property="og:title" content="Flora Haven | Doğanın Zarif Sığınağı" />
+  <meta property="og:description" content="En taze çiçek tasarımları ve aynı gün teslimat seçeneği." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
@@ -33,13 +41,37 @@
 
     -->
 
-  <title>çiçek sitesi</title>
+  <title>Flora Haven | Doğanın Zarif Sığınağı</title>
+
+  <style>
+
+    #root:empty {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #fff;
+    }
+    #root:empty::after {
+      content: "";
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #e11d48;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 
 </head>
 
 <body>
 
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <noscript>Flora Haven'ı görüntüleyebilmek için tarayıcınızda JavaScript'in etkin olması gerekir.</noscript>
 
   <div id="root"></div>
 
