@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
+
+import { getAllCategories } from '../redux/categorySlice';
+
 import { Filter as FilterIcon, X } from 'lucide-react';
 
 const Filter = ({ setPrice, setRating, setCategory }) => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch();
 
-    const categoryList = ['Buketler', 'Saksı Çiçekleri', 'Ters Fanus', 'Kutu Arajman', 'Cenaze', 'Terarayum'];
+    const [searchParams] = useSearchParams();
+    const urlCategory = searchParams.get('category');
+
+    const [isOpen, setIsOpen] = useState(false);
+    const { categories } = useSelector(state => state.category);
+
     const ratingList = [1, 2, 3, 4, 5];
+
+    useEffect(() => {
+
+        dispatch(getAllCategories());
+        if (urlCategory) {
+
+            setCategory(urlCategory);
+        }
+    },[dispatch, urlCategory, setCategory]);
 
     return (
 
-        <div className="sticky top-30 z-10">
+        <div className="">
 
             <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center gap-2 bg-gray-100 p-2 rounded-md mb-4 w-full justify-center border">
 
@@ -51,9 +70,9 @@ const Filter = ({ setPrice, setRating, setCategory }) => {
 
                     <div className='text-sm space-y-1'>
 
-                        {categoryList.map((category, i) => ( <div onClick={() => {setCategory(category); if(window.innerWidth < 768) setIsOpen(false);}} key={i} className={`p-2 cursor-pointer hover:bg-gray-100 rounded transition-colors`}>
+                        {categories.map((category) => ( <div onClick={() => {setCategory(category.name); if(window.innerWidth < 768) setIsOpen(false);}} key={category._id} className={`p-2 cursor-pointer hover:bg-gray-100 rounded transition-colors`}>
 
-                            {category}
+                            {category.name}
                         </div>))}
 
                     </div>

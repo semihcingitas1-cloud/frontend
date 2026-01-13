@@ -107,7 +107,7 @@ function App() {
         <Route exact path='/products' element={<Products />} />
         <Route exact path='/product/:id' element={<Detail />} />
         <Route exact path='/blog' element={<Blog />} />
-        <Route exact path='/blogs' element={<BlogDetail />} />
+        <Route exact path='/blog/:slug' element={<BlogDetail />} />
 
         <Route path='*' element={<Page404 />} />
 

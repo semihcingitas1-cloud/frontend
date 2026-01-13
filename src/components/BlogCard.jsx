@@ -3,8 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 
-// Sadece bu bileşende lazım olan fonksiyonları import ediyoruz
-import { deleteBlog } from '../redux/blogSlice'; 
+import { deleteAdminBlog } from '../redux/blogSlice'; 
 
 import { CiEdit, CiEraser } from "react-icons/ci";
 
@@ -13,15 +12,13 @@ const BlogCard = ({ post, edit }) => {
     const dispatch = useDispatch();
 
     const handleDetailGo = () => {
-        // Redux standardı için post._id kullandık
-        navigate(`/blog/${post?._id}`);
+        navigate(`/blog/${post?.slug}`);
     };
 
     const deleteHandler = (id, e) => {
         e.stopPropagation();
         if (window.confirm("Bu yazıyı silmek istediğinize emin misiniz?")) {
-            // HATA BURADAYDI: deleteAdminBlog yerine deleteBlog kullanıyoruz
-            dispatch(deleteBlog(id));
+            dispatch(deleteAdminBlog(id));
         }
     };
 
@@ -43,7 +40,7 @@ const BlogCard = ({ post, edit }) => {
     };
 
     return (
-        // key olarak post._id kullanmak React performansı için daha iyidir
+
         <div className="group flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
             
             <div className="relative overflow-hidden h-56">
@@ -58,7 +55,6 @@ const BlogCard = ({ post, edit }) => {
             </div>
 
             <div className="p-6 flex flex-col flex-grow">
-                {/* MongoDB'den gelen createdAt değerini kullanabilirsin */}
                 <span className="text-gray-400 text-sm mb-2">
                     {post.createdAt ? new Date(post.createdAt).toLocaleDateString('tr-TR') : post.date}
                 </span>

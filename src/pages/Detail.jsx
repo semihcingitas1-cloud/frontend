@@ -9,6 +9,7 @@ import { addReview, getProductDetail, deleteReview } from '../redux/productSlice
 import { addToCart } from '../redux/cartSlice';
 import { CiCirclePlus, CiCircleMinus, CiChat1, CiCamera, CiEraser } from "react-icons/ci";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
+import { MapPin, Receipt, Truck, User, Mail, Phone } from 'lucide-react';
 
 const Detail = () => {
 
@@ -16,8 +17,10 @@ const Detail = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { user } = useSelector(state => state.user); 
+    const { user, isAuth } = useSelector(state => state.user); 
     const { loading, product } = useSelector(state => state.products);
+    const oldPrice = Number(product?.product?.oldPrice);
+    const currentPrice = Number(product?.product?.price);
 
     const [quantity, setQuantitity] = useState(1);
     const [noteContent, setNoteContent] = useState('');
@@ -27,6 +30,8 @@ const Detail = () => {
     const [comment, setComment] = useState("");
     const [rating, setRating] = useState(5);
     const [images, setImages] = useState([]);
+
+    const discountRate = oldPrice ? Math.round(((oldPrice - currentPrice) / oldPrice) * 100) : 0;
 
     useEffect(() => {
 
@@ -141,8 +146,87 @@ const Detail = () => {
         }
     };
 
-    var settings = { dots: true, infinite: false, speed: 500, slidesToShow: 1, slidesToScroll: 1 };
+    var settings = {
+
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    };
+
     const reviewSliderSettings = { dots: true, infinite: false, speed: 500, slidesToShow: 1, slidesToScroll: 1, arrows: false };
+
+    const [shippingInfo, setShippingInfo] = useState({
+        firstName: user?.name?.split(' ')[0] || "",
+        lastName: user?.name?.split(' ')[1] || "",
+        email: user?.email || "",
+        phone: user?.phone || "",
+        address: "",
+        city: "",
+        district: "",
+        zipCode: "",
+        invoiceType: "individual",
+        taxNumber: "",
+        taxOffice: "",
+        companyName: "",
+        isSameAsBilling: true
+    });
+
+    const handleChange = (e) => {
+
+        setShippingInfo({ ...shippingInfo, [e.target.name]: e.target.value });
+    };
+
+    const konyaDistricts = [
+
+        { name: "Selçuklu", price: 0, isCenter: true },
+        { name: "Meram", price: 0, isCenter: true },
+        { name: "Karatay", price: 0, isCenter: true },
+        { name: "Akşehir", price: 45, isCenter: false },
+        { name: "Beyşehir", price: 40, isCenter: false },
+        { name: "Ereğli", price: 50, isCenter: false },
+        { name: "Seydişehir", price: 40, isCenter: false },
+        { name: "Cihanbeyli", price: 45, isCenter: false },
+        { name: "Kulu", price: 45, isCenter: false },
+        { name: "Ilgın", price: 35, isCenter: false },
+        { name: "Kadınhanı", price: 30, isCenter: false },
+        { name: "Sarayönü", price: 30, isCenter: false },
+        { name: "Karapınar", price: 40, isCenter: false },
+        { name: "Çumra", price: 30, isCenter: false },
+        { name: "Doğanhisar", price: 45, isCenter: false },
+        { name: "Hüyük", price: 45, isCenter: false },
+        { name: "Bozkır", price: 50, isCenter: false },
+        { name: "Hadim", price: 55, isCenter: false },
+        { name: "Taşkent", price: 60, isCenter: false },
+        { name: "Güneysınır", price: 40, isCenter: false },
+        { name: "Emirgazi", price: 50, isCenter: false },
+        { name: "Halkapınar", price: 60, isCenter: false },
+        { name: "Derebucak", price: 55, isCenter: false },
+        { name: "Tuzlukçu", price: 45, isCenter: false },
+        { name: "Yalıhüyük", price: 50, isCenter: false },
+        { name: "Altınekin", price: 35, isCenter: false },
+        { name: "Ahırlı", price: 50, isCenter: false },
+        { name: "Derbent", price: 35, isCenter: false },
+        { name: "Yunak", price: 50, isCenter: false },
+        { name: "Çeltik", price: 55, isCenter: false }
+    ];
+
+    const [selectedDistrict, setSelectedDistrict] = useState(null);
+
+    const handleDistrictChange = (e) => {
+
+        const districtName = e.target.value;
+        const districtObj = konyaDistricts.find(d => d.name === districtName);
+
+        if (districtObj) {
+
+            setSelectedDistrict(districtObj);
+            setShippingInfo({ ...shippingInfo, district: districtName });
+        } else {
+            setSelectedDistrict(null);
+        }
+    };
 
     return (
 
@@ -157,6 +241,12 @@ const Detail = () => {
                 <div className='my-10 w-full flex flex-col md:flex-row gap-12'>
 
                     <div className='w-full md:w-1/2'>
+
+                        {discountRate > 0 && ( <div className="flex items-center gap-3">
+
+                            <span className="bg-rose-600 text-white px-3 py-1 rounded-full text-sm font-bold animate-pulse">%{discountRate} İNDİRİM</span>
+
+                        </div>)}
 
                         <Slider className='w-full mb-5' {...settings}>
 
@@ -174,7 +264,13 @@ const Detail = () => {
                         <div className='text-gray-600 text-lg leading-relaxed'>{product?.product?.description}</div>
                         <div className='flex items-center justify-between'>
 
-                            <div className='text-5xl font-black text-rose-500'>{product?.product?.price?.toLocaleString()} ₺</div>
+                            <div className='flex'>
+
+                                {discountRate > 0 && <span className="text-gray-400 line-through text-xl">{oldPrice} ₺</span>}
+                                <div className='text-5xl font-black text-rose-500'>{product?.product?.price?.toLocaleString()} ₺</div>
+
+                            </div>
+
                             <div className='flex flex-col'>
 
                                 {renderStars(product?.product?.rating, 24)}
@@ -231,6 +327,153 @@ const Detail = () => {
                 </div>
 
                 <hr className='my-16 border-gray-100' />
+
+                {!isAuth && ( <div>
+
+                    <div>
+
+                        <div className="max-w-6xl mx-auto p-4 md:p-10 flex flex-col md:flex-row gap-10">
+
+                            <div className="flex-1 space-y-8">
+
+                                <section className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+
+                                    <div className="flex items-center gap-3 mb-6 text-rose-500">
+
+                                        <User size={24} />
+                                        <h2 className="text-xl font-bold uppercase tracking-wide">İletişim Bilgileri</h2>
+
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                        <input name="firstName" onChange={handleChange} className="input-style" placeholder="Adınız" />
+                                        <input name="lastName" onChange={handleChange} className="input-style" placeholder="Soyadınız" />
+                                        <input name="email" onChange={handleChange} className="input-style" placeholder="E-posta Adresiniz" />
+                                        <input name="phone" onChange={handleChange} className="input-style" placeholder="Telefon Numaranız" />
+
+                                    </div>
+
+                                </section>
+
+                                <section className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+
+                                    <div className="flex items-center gap-3 mb-6 text-rose-500">
+
+                                        <MapPin size={24} />
+                                        <h2 className="text-xl font-bold uppercase tracking-wide">Teslimat Adresi</h2>
+
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                        <div className="md:col-span-2"><textarea name="address" onChange={handleChange} className="input-style h-24" placeholder="Sokak, Mahalle ve Bina Detayları..." /></div>
+                                        <input name="city" onChange={handleChange} className="input-style" placeholder="Şehir" />
+
+                                        <select name="district" onChange={handleDistrictChange} className="input-style" placeholder="İlçe">
+
+                                            {konyaDistricts.map((districs, index) => (
+
+                                                <option key={index} value={districs.name}>{districs.name}</option>
+                                            ))}
+
+                                        </select>
+
+                                    </div>
+
+                                </section>
+
+                                <section className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+
+                                    <div className="flex items-center justify-between mb-6">
+
+                                        <div className="flex items-center gap-3 text-rose-500">
+
+                                            <Receipt size={24} />
+                                            <h2 className="text-xl font-bold uppercase tracking-wide">Fatura Bilgileri</h2>
+
+                                        </div>
+
+                                        <select name="invoiceType" onChange={handleChange} className="bg-rose-50 text-rose-600 font-bold p-2 rounded-xl outline-none border-none text-sm">
+
+                                            <option value="individual">Bireysel</option>
+                                            <option value="corporate">Kurumsal</option>
+
+                                        </select>
+
+                                    </div>
+
+                                    {shippingInfo.invoiceType === "corporate" ? (
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in duration-500">
+
+                                            <input name="companyName" onChange={handleChange} className="input-style md:col-span-2" placeholder="Şirket Tam Ünvanı" />
+                                            <input name="taxNumber" onChange={handleChange} className="input-style" placeholder="Vergi Numarası" />
+                                            <input name="taxOffice" onChange={handleChange} className="input-style" placeholder="Vergi Dairesi" />
+
+                                        </div>
+
+                                    ) : ( <p className="text-gray-500 italic text-sm">Adınıza bireysel fatura düzenlenecektir.</p>)}
+
+                                </section>
+
+                            </div>
+
+                            <div className="w-full md:w-[350px]">
+
+                                <div className="text-gray-700 p-8 rounded-md border sticky top-16">
+
+                                    <h3 className="text-xl font-bold mb-6 flex items-center gap-2"><Truck size={20} /> Sipariş Özeti</h3>
+
+                                    <div className="space-y-4 mb-6 border-b border-gray-700 pb-6 text-sm text-gray-600">
+
+                                        <div className="flex justify-between"><span>Ara Toplam</span><span>{product?.product?.price} ₺</span></div>
+                                        <div className="flex justify-between text-emerald-400"><span>Kargo ({selectedDistrict?.name || "Seçilmedi"})</span><span>{selectedDistrict ? (selectedDistrict.price === 0 ? "Ücretsiz" : `${selectedDistrict.price} ₺`) : "0 ₺"}</span></div>
+
+                                    </div>
+
+                                    <div className="flex justify-between text-2xl font-black mb-8">
+
+                                        <span>Toplam</span>
+                                        <span className="text-rose-500">{(product?.product?.price)+(selectedDistrict?.price || 0)} ₺</span>
+
+                                    </div>
+
+                                    <button className="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-4 rounded-2xl transition-all">Ödemeye Geç</button>
+
+                                </div>
+
+                            </div>
+
+                            <style>{`
+
+                                .input-style {
+
+                                    width: 100%;
+                                    padding: 1rem;
+                                    background-color: #f8fafc;
+                                    border: 1px solid #e2e8f0;
+                                    border-radius: 1.25rem;
+                                    outline: none;
+                                    transition: all 0.3s;
+                                }
+
+                                .input-style:focus {
+
+                                    background-color: white;
+                                    border-color: #f43f5e;
+                                    box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.1);
+                                }
+
+                            `}</style>
+ 
+                        </div>
+
+                    </div>
+
+                    <hr className='my-16 border-gray-100' />
+
+                </div>)}
 
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-16'>
 

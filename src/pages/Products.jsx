@@ -40,7 +40,7 @@ const Products = () => {
                 
                 <div className="flex flex-col md:flex-row gap-8 relative">
 
-                    <aside className="w-full md:w-64 lg:w-72 flex-shrink-0 md:sticky md:top-4 h-fit z-20">
+                    <aside className="w-full md:w-64 lg:w-72 flex-shrink-0 md:sticky md:top-20 h-fit z-10">
 
                         <Filter setPrice={setPrice} setRating={setRating} setCategory={setCategory} />
 

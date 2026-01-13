@@ -41,7 +41,7 @@ const AdminPanel = () => {
 
                 <div className="py-3 px-5 text-2xl font-bold border-b border-slate-700 text-rose-500">
 
-                    Gala Çiçek <span className="text-white text-sm block font-normal">Admin Panel</span>
+                    Flora HAVEN <span className="text-white text-sm block font-normal">Admin Panel</span>
 
                 </div>
                 

@@ -1,6 +1,63 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+{/**
+export const userSlice = createSlice({
+
+    extraReducers: (builder) => {
+
+        builder.addCase(register.fulfilled, (state, action) => {
+            state.isAuth = true;
+            state.loading = false;
+            state.user = action.payload;
+        });
+        builder.addCase(register.rejected, (state, action) => {
+            state.loading = false;
+            state.isAuth = false;
+        });
+        builder.addCase(login.pending, (state, action) => {
+            state.loading = true;
+            state.isAuth = false;
+        });
+        builder.addCase(login.fulfilled, (state, action) => {
+            state.isAuth = true;
+            state.loading = false;
+            state.user = action.payload;
+        });
+        builder.addCase(login.rejected, (state, action) => {
+            state.loading = false;
+            state.isAuth = false;
+            localStorage.removeItem("token");
+        });
+        builder.addCase(profile.pending, (state, action) => {
+            state.loading = true;
+            state.isAuth = false;
+        });
+        builder.addCase(profile.fulfilled, (state, action) => {
+            state.isAuth = true;
+            state.loading = false;
+            state.user = action.payload;
+        });
+        builder.addCase(profile.rejected, (state, action) => {
+            state.isAuth = false;
+            state.loading = false;
+            state.user = {};
+        });
+        builder.addCase(forgotPassword.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(forgotPassword.fulfilled, (state, action) => {
+            state.loading = false;
+        });
+        builder.addCase(resetPassword.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(resetPassword.fulfilled, (state, action) => {
+            state.loading = false;
+        });
+    },
+});*/}
+
 const initialState = {
     user: {},
     isAuth: false,
@@ -21,7 +78,7 @@ export const register = createAsyncThunk(
             body: JSON.stringify(data)
         }
 
-        const response = await fetch(`https://backend-d72l.onrender.com/register`, requestOptions);
+        const response = await fetch(`http://localhost:4000/register`, requestOptions);
         
         if (!response.ok) {
 
@@ -46,7 +103,7 @@ export const login = createAsyncThunk(
             body: JSON.stringify({email: data.email, password: data.password})
         }
 
-        const response = await fetch(`https://backend-d72l.onrender.com/login`, requestOptions);
+        const response = await fetch(`http://localhost:4000/login`, requestOptions);
 
         if (!response.ok) {
 
@@ -74,7 +131,7 @@ export const forgotPassword = createAsyncThunk(
             body: JSON.stringify({email})
         }
 
-        const response = await fetch(`https://backend-d72l.onrender.com/forgotPassword`, requestOptions);
+        const response = await fetch(`http://localhost:4000/forgotPassword`, requestOptions);
         
         if (!response.ok) {
 
@@ -99,7 +156,7 @@ export const resetPassword = createAsyncThunk(
             body: JSON.stringify({password: params.password})
         }
 
-        const response = await fetch(`https://backend-d72l.onrender.com/reset/${params.token}`, requestOptions);
+        const response = await fetch(`http://localhost:4000/reset/${params.token}`, requestOptions);
 
         if (!response.ok) {
             let error = await response.json();
@@ -123,7 +180,7 @@ export const profile = createAsyncThunk(
             return rejectWithValue({ message: "Oturum açılmamış. Token bulunamadı." });
         }
 
-        const response = await fetch(`https://backend-d72l.onrender.com/profile`, { headers: {
+        const response = await fetch(`http://localhost:4000/profile`, { headers: {
 
             authorization: `Bearer ${token.trim()}` 
         }});
@@ -149,7 +206,7 @@ export const addAddress = createAsyncThunk('addAddress', async (addressData) => 
     const token = localStorage.getItem('token');
 
     const { data } = await axios.post(
-        `https://backend-d72l.onrender.com/profile/address/new`, 
+        `http://localhost:4000/profile/address/new`, 
         addressData, 
         {
             headers: {
@@ -167,7 +224,7 @@ export const deleteAddress = createAsyncThunk('deleteAddress', async (id) => {
     const token = localStorage.getItem('token');
 
     const { data } = await axios.delete(
-        `https://backend-d72l.onrender.com/profile/address/${id}`, 
+        `http://localhost:4000/profile/address/${id}`, 
         {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -283,5 +340,3 @@ export const { logoutUser } = userSlice.actions;
 
 
 export default userSlice.reducer;
-
-

@@ -48,46 +48,52 @@ const Cart = () => {
 
                         <h2 className='text-2xl font-bold mb-5'>Alışveriş Sepeti ({carts.length} Ürün)</h2>
 
-                        {carts?.map((cart, i) => (
+                        {carts?.map((cart, i) => ( <div key={i} className='w-full border rounded-2xl p-4 bg-white shadow-sm mb-4'>
 
-                            <div key={i} className='w-full border rounded-2xl p-4 bg-white shadow-sm'>
+                            <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
 
-                                <div className='flex items-center justify-between'>
+                                <div onClick={() => detailItem(cart?.id)} className='flex items-center gap-4 cursor-pointer w-full md:w-1/3'>
 
-                                    <div onClick={() => detailItem(cart?.id)} className='flex items-center gap-4 cursor-pointer w-1/3'>
+                                    <img className='w-16 h-16 md:w-20 md:h-20 object-cover rounded-lg flex-shrink-0' src={cart?.image?.url} alt="" />
+                                    <div className='font-semibold text-gray-700 text-sm md:text-base'>{cart?.name}</div>
 
-                                        <img className='w-20 h-20 object-cover rounded-lg' src={cart?.image?.url} alt="" />
-                                        <div className='font-semibold text-gray-700'>{cart?.name}</div>
+                                </div>
 
-                                    </div>
+                                <div className='flex items-center justify-between w-full md:w-auto md:gap-12'>
 
                                     <div className='flex items-center gap-3'>
 
-                                        <div onClick={() => decrement(cart.id, cart.quantity)} className='hover:bg-rose-100 text-rose-500 rounded-full cursor-pointer transition'><CiCircleMinus size={35} /></div>
-                                        <div className='text-2xl font-bold w-8 text-center'>{cart?.quantity}</div>
-                                        <div onClick={() => increment(cart.id, cart.quantity)} className='hover:bg-rose-100 text-rose-500 rounded-full cursor-pointer transition'><CiCirclePlus size={35} /></div>
+                                        <div onClick={() => decrement(cart.id, cart.quantity)} className='hover:bg-rose-100 text-rose-500 rounded-full cursor-pointer transition'><CiCircleMinus size={window.innerWidth < 768 ? 30 : 35} /></div>
+                                        <div className='text-xl md:text-2xl font-bold w-8 text-center'>{cart?.quantity}</div>
+                                        <div onClick={() => increment(cart.id, cart.quantity)} className='hover:bg-rose-100 text-rose-500 rounded-full cursor-pointer transition'><CiCirclePlus size={window.innerWidth < 768 ? 30 : 35} /></div>
 
                                     </div>
 
-                                    <div className='flex items-center gap-6'>
+                                    <div className='flex items-center gap-4 md:gap-6'>
 
-                                        <div className='text-xl font-bold text-gray-800'>{(cart?.price) * (cart?.quantity)} ₺</div>
-                                        <CiEraser className='p-2 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all cursor-pointer' onClick={() => deleteItem(cart?.id)} size={40} />
+                                        <div className='text-lg md:text-xl font-bold text-gray-800 whitespace-nowrap'>{(cart?.price) * (cart?.quantity)} ₺</div>
+                                        <CiEraser className='p-2 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all cursor-pointer' onClick={() => deleteItem(cart?.id)} size={window.innerWidth < 768 ? 35 : 40} />
 
                                     </div>
 
                                 </div>
 
-                                {cart?.note && (<div className='mt-4 p-3 bg-green-50 border border-green-100 rounded-xl flex items-start gap-2'>
-
-                                    <CiStickyNote size={20} className='text-green-600 mt-1 flex-shrink-0' />
-                                    <div className='text-sm text-green-800'><span className='font-bold uppercase text-[10px] block'>Hediye Notunuz:</span>{cart.note}</div>
-
-                                </div>)}
-
                             </div>
 
-                        ))}
+                            {cart?.note && (<div className='mt-4 p-3 bg-green-50 border border-green-100 rounded-xl flex items-start gap-2'>
+
+                                <CiStickyNote size={20} className='text-green-600 mt-1 flex-shrink-0' />
+
+                                <div className='text-sm text-green-800'>
+
+                                    <span className='font-bold uppercase text-[10px] block'>Hediye Notunuz:</span>
+                                    {cart.note}
+
+                                </div>
+
+                            </div>)}
+
+                        </div>))}
 
                     </div>
 

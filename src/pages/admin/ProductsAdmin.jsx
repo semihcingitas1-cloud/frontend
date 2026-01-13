@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { addAdminProducts, getAdminProducts } from '../../redux/productSlice';
 import { openModalFunc } from '../../redux/generalSlice';
+import { getAllCategories } from '../../redux/categorySlice';
 
 import ProductCard from '../../components/ProductCard';
 import Input from '../../components/Input';
@@ -14,12 +16,14 @@ const ProductsAdmin = () => {
 
     const dispatch = useDispatch();
     const { adminProducts, loading } = useSelector(state => state.products);
+    const { categories } = useSelector(state => state.category);
     const { openModal } = useSelector(state => state.general);
     const [data, setData] = useState({ name: "", description: "", price: "", category: "", stock: "", rating: "", images: [] });
 
     useEffect(() => {
 
         dispatch(getAdminProducts({ keyword: "" }));
+        dispatch(getAllCategories());
     }, [dispatch]);
 
     const productHandle = (e) => {
@@ -169,9 +173,8 @@ const ProductsAdmin = () => {
                         <select name="category" onChange={productHandle} value={data.category} className={`w-full border border-gray-200 p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-rose-400 bg-gray-50/50 text-sm transition-all appearance-none cursor-pointer ${!data.category && 'border-rose-100'}`}>
 
                             <option value="">Seçim Yapınız</option>
-                            <option value="Düğün">Düğün Çiçekleri</option>
-                            <option value="Hediye">Hediye Kutuları</option>
-                            <option value="Bitki">Salon Bitkileri</option>
+
+                            {categories.map((category) => (<option key={category._id} value={category.name}>{category.name}</option>))}
 
                         </select>
 

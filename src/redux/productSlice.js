@@ -15,11 +15,11 @@ export const getProducts = createAsyncThunk(
 
     async (params) => {
 
-        let link = `https://backend-d72l.onrender.com/products?keyword=${params?.keyword || ""}&rating[gte]=${params?.rating || 0}&price[gte]=${params?.price?.min || 0}&price[lte]=${params?.price?.max || 30000}`;
+        let link = `http://localhost:4000/products?keyword=${params?.keyword || ""}&rating[gte]=${params?.rating || 0}&price[gte]=${params?.price?.min || 0}&price[lte]=${params?.price?.max || 30000}`;
 
         if(params.category){
 
-            link = `https://backend-d72l.onrender.com/products?keyword=${params?.keyword || ""}&rating[gte]=${params?.rating || 0}&price[gte]=${params?.price?.min || 0}&price[lte]=${params?.price?.max || 30000}&category=${params.category}`;
+            link = `http://localhost:4000/products?keyword=${params?.keyword || ""}&rating[gte]=${params?.rating || 0}&price[gte]=${params?.price?.min || 0}&price[lte]=${params?.price?.max || 30000}&category=${params.category}`;
         }
 
         const response = await fetch(link);
@@ -34,7 +34,7 @@ export const getAdminProducts = createAsyncThunk(
     async () => {
 
         const token = localStorage.getItem("token");
-        const response = await fetch(`https://backend-d72l.onrender.com/admin/products`, {headers: {
+        const response = await fetch(`http://localhost:4000/admin/products`, {headers: {
 
             authorization: `Bearer ${token}`
         }});
@@ -44,7 +44,7 @@ export const getAdminProducts = createAsyncThunk(
 
 export const addAdminProducts = createAsyncThunk('addAdminProducts', async (data) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`https://backend-d72l.onrender.com/product/new`, {
+    const response = await fetch(`http://localhost:4000/product/new`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const addAdminProducts = createAsyncThunk('addAdminProducts', async (data
 
 export const deleteAdminProduct = createAsyncThunk('deleteAdminProduct', async (id) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`https://backend-d72l.onrender.com/products/${id}`, {
+    const response = await fetch(`http://localhost:4000/products/${id}`, {
         method: 'DELETE',
         headers: {
             "Authorization": `Bearer ${token}`
@@ -72,7 +72,7 @@ export const deleteAdminProduct = createAsyncThunk('deleteAdminProduct', async (
 export const updateAdminProduct = createAsyncThunk('updateAdminProduct', async ({ id, productData }) => {
 
     const token = localStorage.getItem("token");
-    const response = await fetch(`https://backend-d72l.onrender.com/products/${id}`, {
+    const response = await fetch(`http://localhost:4000/products/${id}`, {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export const getProductDetail = createAsyncThunk(
 
     async (id) => {
 
-        const response = await fetch(`https://backend-d72l.onrender.com/products/${id}`);
+        const response = await fetch(`http://localhost:4000/products/${id}`);
         return (await response.json());
     }
 );
@@ -108,7 +108,7 @@ export const addReview = createAsyncThunk("addReview", async (reviewData, { reje
             }
         };
 
-        const response = await axios.post(`https://backend-d72l.onrender.com/product/newReview`, reviewData, config);
+        const response = await axios.post(`http://localhost:4000/product/newReview`, reviewData, config);
         
         return response.data;
     } catch (error) {
@@ -122,7 +122,7 @@ export const deleteReview = createAsyncThunk("deleteReview", async ({ productId,
     try {
         const token = localStorage.getItem("token");
         const response = await axios.delete(
-            `https://backend-d72l.onrender.com/reviews?productId=${productId}&id=${reviewId}`,
+            `http://localhost:4000/reviews?productId=${productId}&id=${reviewId}`,
             {
                 headers: { "Authorization": `Bearer ${token}` }
             }
@@ -192,4 +192,3 @@ export const productSlice = createSlice({
 
 
 export default productSlice.reducer;
-
