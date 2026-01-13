@@ -251,7 +251,8 @@ const Detail = () => {
                         <Slider className='w-full mb-5' {...settings}>
 
                             {product?.product?.images?.map((image, i) => (
-                                <img className='rounded-3xl h-[550px] w-full object-cover shadow-xl' key={i} src={image.url} alt="" />
+
+                                <img className='rounded-3xl h-[550px] w-full object-cover shadow-xl' key={i} src={image.url.replace("/upload/", "/upload/f_auto,q_auto,w_1200/")} alt={product?.product?.name} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : "low"}/>
                             ))}
 
                         </Slider>
@@ -615,5 +616,6 @@ const Detail = () => {
 
     );
 };
+
 
 export default Detail;
