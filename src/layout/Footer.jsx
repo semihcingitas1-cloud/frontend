@@ -21,10 +21,10 @@ const Footer = () => {
                         <ul className='space-y-2 text-gray-600'>
 
                             <li><a href="/" className='hover:text-rose-500 transition'>Anasayfa</a></li>
-                            <li><a href="/" className='hover:text-rose-500 transition'>Sıkça Sorulan Sorular</a></li>
-                            <li><a href="/" className='hover:text-rose-500 transition'>Hakkımızda</a></li>
-                            <li><a href="/" className='hover:text-rose-500 transition'>Ödeme Bildirimi</a></li>
-                            <li><a href="/" className='hover:text-rose-500 transition'>Bize Ulaşın</a></li>
+                            <li><a href="/sss" className='hover:text-rose-500 transition'>Sıkça Sorulan Sorular</a></li>
+                            <li><a href="/about" className='hover:text-rose-500 transition'>Hakkımızda</a></li>
+                            <li><a href="/paymentnotif" className='hover:text-rose-500 transition'>Ödeme Yolları</a></li>
+                            <li><a href="/contact" className='hover:text-rose-500 transition'>Bize Ulaşın</a></li>
 
                         </ul>
 
@@ -36,9 +36,9 @@ const Footer = () => {
 
                         <ul className='space-y-2 text-gray-600'>
 
-                            <li><a href="/" className='hover:text-rose-500 transition'>Mesafeli Satış Sözleşmesi</a></li>
-                            <li><a href="/" className='hover:text-rose-500 transition'>Gizlilik Sözleşmesi</a></li>
-                            <li><a href="/" className='hover:text-rose-500 transition'>İade Politikası</a></li>
+                            <li><a href="/mesafelisatis" className='hover:text-rose-500 transition'>Mesafeli Satış Sözleşmesi</a></li>
+                            <li><a href="/gizliliksozlesmesi" className='hover:text-rose-500 transition'>Gizlilik Sözleşmesi</a></li>
+                            <li><a href="/iadepolitikasi" className='hover:text-rose-500 transition'>İade Politikası</a></li>
 
                         </ul>
 
@@ -65,19 +65,19 @@ const Footer = () => {
                     <div className='flex flex-wrap justify-center gap-3 md:gap-4 max-w-lg'>
 
                         {[
-                            { icon: <FaFacebookF />, color: 'hover:bg-facebook' },
-                            { icon: <FaXTwitter />, color: 'hover:bg-twitter' },
-                            { icon: <FaInstagram />, color: 'hover:bg-instagram' },
-                            { icon: <FaPinterestP />, color: 'hover:bg-pinterest' },
-                            { icon: <FaReddit />, color: 'hover:bg-reddit' },
-                            { icon: <FaSnapchatGhost />, color: 'hover:bg-snapchat' },
-                            { icon: <FaLinkedinIn />, color: 'hover:bg-linkedin' },
-                            { icon: <FaWhatsapp />, color: 'hover:bg-whatssapp' },
-                        ].map((social, index) => (
-                            <div key={index} className={`text-2xl md:text-3xl p-2 cursor-pointer rounded border-2 border-black transition-all duration-300 hover:text-white hover:border-transparent ${social.color}`}>
-                                {social.icon}
-                            </div>
-                        ))}
+                            { icon: <FaFacebookF />, color: 'hover:bg-facebook', link:'https://www.facebook.com/?locale=tr_TR' },
+                            { icon: <FaXTwitter />, color: 'hover:bg-twitter', link:'https://x.com/?lang=tr' },
+                            { icon: <FaInstagram />, color: 'hover:bg-instagram', link:'https://www.instagram.com/' },
+                            { icon: <FaPinterestP />, color: 'hover:bg-pinterest', link:'https://tr.pinterest.com/' },
+                            { icon: <FaReddit />, color: 'hover:bg-reddit', link:'https://www.reddit.com/' },
+                            { icon: <FaSnapchatGhost />, color: 'hover:bg-snapchat', link:'https://www.snapchat.com/' },
+                            { icon: <FaLinkedinIn />, color: 'hover:bg-linkedin', link:'https://www.linkedin.com/feed/' },
+                            { icon: <FaWhatsapp />, color: 'hover:bg-whatssapp', link:'https://www.whatsapp.com/?lang=tr' },
+                        ].map((social, index) => ( <div key={index} className={`text-2xl md:text-3xl p-2 cursor-pointer rounded border-2 border-black transition-all duration-300 hover:text-white hover:border-transparent ${social.color}`}>
+
+                            <a href={social.link}>{social.icon}</a>
+
+                        </div> ))}
 
                     </div>
 

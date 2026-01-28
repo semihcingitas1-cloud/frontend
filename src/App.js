@@ -33,6 +33,7 @@ import Footer from './layout/Footer';
 import ProtectedRout from './components/ProtectedRout';
 
 import { profile } from './redux/userSlice';
+import { getSiteSettings } from './redux/settingsSlider';
 
 import AnalyticsAdmin from './pages/admin/AnalyticsAdmin';
 import DashboardAdmin from './pages/admin/DashboardAdmin';
@@ -47,22 +48,44 @@ import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import BlogsAdmin from './pages/admin/BlogsAdmin';
 import CategoryAdmin from './pages/admin/CategoryAdmin';
+import Maintenance from './pages/Maintenance';
+import FAQPage from './pages/FAQPage';
+import ContactPage from './pages/ContactPage';
+import AboutPage from './pages/AboutPage';
+import PaymentNotif from './pages/PaymentNotif';
+
+import SalesAgreement from './pages/agreement/SalesAgreement';
+import ReturnPolicy from './pages/agreement/ReturnPolicy';
+import PrivacyPolicy from './pages/agreement/PrivacyPolicy';
+import MailAdmin from './pages/admin/MailAdmin';
+import FlowerBuilder from './pages/FlowerBuilder';
+
 
 function App() {
 
   axios.defaults.withCredentials = true;
 
   const dispatch = useDispatch();
-  const { user, isAuth } = useSelector(state => state.user)
+  const { user, isAuth } = useSelector(state => state.user);
+  const { isStoreOpen } = useSelector(state => state.settings);
 
   useEffect(() => {
 
+    dispatch(getSiteSettings());
     dispatch(profile())
   },[dispatch])
+
+  const isMaintenance = false;
+
+  if (isMaintenance && user?.user?.role !== 'admin') {
+    return <Maintenance />;
+  }
 
   return (
 
     <Router>
+
+      {!isStoreOpen && ( <div className="bg-red-600 text-white text-center py-2 text-[11px] font-black uppercase tracking-widest sticky top-0 z-[9999] shadow-md animate-pulse">⚠️ Mağazamız geçici olarak yeni siparişlere kapalıdır</div> )}
 
       <Header />
       <HeaderSticky />
@@ -99,6 +122,7 @@ function App() {
           <Route exact path='/admin/productsadmin' element={<ProductsAdmin />} />
           <Route exact path='/admin/settingsadmin' element={<SettingsAdmin />} />
           <Route exact path="/admin/categoriesadmin" element={<CategoryAdmin />} />
+          <Route exact path="/admin/mailadmin" element={<MailAdmin />} />
 
           <Route exact path='/admin/update/:id' element={<UpdateProductPage />} />
 
@@ -106,8 +130,19 @@ function App() {
         
         <Route exact path='/products' element={<Products />} />
         <Route exact path='/product/:id' element={<Detail />} />
+        <Route exact path='/flowerbuilder' element={<FlowerBuilder />} />
         <Route exact path='/blog' element={<Blog />} />
         <Route exact path='/blog/:slug' element={<BlogDetail />} />
+
+        <Route exact path='/sss' element={<FAQPage />} />
+        <Route exact path='/contact' element={<ContactPage />} />
+        <Route exact path='/about' element={<AboutPage />} />
+        <Route exact path='/paymentnotif' element={<PaymentNotif />} />
+        <Route exact path='/maintenance' element={<Maintenance />} />
+
+        <Route exact path='/mesafelisatis' element={<SalesAgreement />} />
+        <Route exact path='/iadepolitikasi' element={<ReturnPolicy />} />
+        <Route exact path='/gizliliksozlesmesi' element={<PrivacyPolicy />} />
 
         <Route path='*' element={<Page404 />} />
 

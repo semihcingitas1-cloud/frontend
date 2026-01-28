@@ -1,21 +1,41 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-const ProtectedRout = ({ isAdmin, user }) => {
+const ProtectedRoute = ({ isAdmin = false, user, loading, redirectPath = '/auth', adminRedirectPath = '/' }) => {
 
+    const location = useLocation();
     const token = localStorage.getItem('token');
 
-    if(isAdmin && user?.user?.role === 'admin'){
+    const isAuthorized = useMemo(() => {
 
-        return <Outlet />;
+        if (!isAdmin) return true;
+        return user?.user?.role === 'admin' || user?.role === 'admin';
+    }, [isAdmin, user]);
+
+    if (loading) {
+
+        return (
+
+            <div className="flex flex-col justify-center items-center h-screen gap-4">
+
+                <div className="w-12 h-12 rounded-full border-4 border-gray-100 border-t-rose-500 animate-spin"></div>
+                <p className="text-gray-500 animate-pulse font-medium">Oturum kontrol ediliyor...</p>
+
+            </div>
+        );
     }
 
-    if(!isAdmin && token){
+    if (!token) {
 
-        return <Outlet />;
+        return <Navigate to={redirectPath} state={{ from: location }} replace />;
     }
 
-    return <Navigate to='/auth' replace />; 
+    if (!isAuthorized) {
+
+        return <Navigate to={adminRedirectPath} replace />;
+    }
+
+    return <Outlet />;
 };
 
-export default ProtectedRout;
+export default ProtectedRoute;

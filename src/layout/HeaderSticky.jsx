@@ -29,7 +29,7 @@ const HeaderSticky = ({ setCategory }) => {
         }
 
         setIsOpen(false);
-        navigate(`/products?category=${encodeURIComponent(category.name)}`); 
+        navigate(`/products`); 
     };
 
     return (
@@ -39,7 +39,6 @@ const HeaderSticky = ({ setCategory }) => {
             <div className='md:hidden flex items-center justify-between px-4 py-3 cursor-pointer' onClick={() => setIsOpen(!isOpen)}>
 
                 <span className='font-bold uppercase tracking-wider text-sm'>Kategoriler</span>
-
                 <div className='flex items-center gap-2'>{isOpen ? <X size={24} /> : <Menu size={24} />}</div>
 
             </div>

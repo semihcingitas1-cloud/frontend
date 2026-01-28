@@ -21,12 +21,13 @@ const PaymentAccept = () => {
             alert("Lütfen bir teslimat adresi seçiniz.");
             return;
         }
+
         if (!isAgreed) {
 
             alert("Lütfen sözleşmeleri onaylayınız.");
             return;
         }
-        
+
         console.log("Ödeme işlemine geçiliyor...", {
 
             address: selectedAddress,
@@ -38,6 +39,7 @@ const PaymentAccept = () => {
         return (navigate('/payment'), {
 
             state: { totalPrice: totalAmount + shippingCost,
+
                 address: fullAddress,
                 user: user?.user
             }

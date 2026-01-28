@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../redux/userSlice';
 
-import { CiDollar, CiBoxes, CiMail, CiSettings, CiLogout } from "react-icons/ci";
+import { CiDollar, CiBoxes, CiChat1, CiMail, CiSettings, CiLogout } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 import { PiSlideshow } from "react-icons/pi";
 import { ImBlog } from "react-icons/im";
@@ -18,10 +18,11 @@ const AdminPanel = () => {
     const menuItems = [
         { name: 'Dashboard', path: '/admin/dashboardadmin', icon: <CiDollar size={25} /> },
         { name: 'Siparişler', path: '/admin/ordersadmin', icon: <GiShoppingCart size={25} /> },
-        { name: 'Mesajlar', path: '/admin/messagesadmin', icon: <CiMail size={25} /> },
+        { name: 'Mesajlar', path: '/admin/messagesadmin', icon: <CiChat1 size={25} /> },
         { name: 'Bloglar', path: '/admin/blogsadmin', icon: <ImBlog size={25} /> },
         { name: 'Slider', path: '/admin/slideradmin', icon: <PiSlideshow size={25} /> },
         { name: 'Ürünler', path: '/admin/productsadmin', icon: <CiBoxes size={25} /> },
+        { name: 'Mail & SMS', path: '/admin/mailadmin', icon: <CiMail size={25} /> },
         { name: 'Analizler', path: '/admin/analyticsadmin', icon: <TbReportAnalytics size={25} /> },
         { name: 'Ayarlar', path: '/admin/settingsadmin', icon: <CiSettings size={25} /> },
     ];

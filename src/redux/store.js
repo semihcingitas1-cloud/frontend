@@ -8,6 +8,8 @@ import favoriteSlice from './favoriteSlice';
 import orderSlice from './orderSlice';
 import sliderSlice from './sliderSlice';
 import categoryReducer from './categorySlice';
+import settingsReducer from './settingsSlider';
+import mailSlice from './mailSlice';
 
 export default configureStore({
 
@@ -22,5 +24,7 @@ export default configureStore({
         orders: orderSlice,
         slider: sliderSlice,
         category: categoryReducer,
+        settings: settingsReducer,
+        mail: mailSlice, 
     },
 });

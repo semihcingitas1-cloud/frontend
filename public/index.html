@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
 
-  <meta name="description" content="Flora Haven: Doğanın zarif sığınağı. En taze çiçek tasarımları, özel gün aranjmanları ve aynı gün teslimat seçeneğiyle sevdiklerinize mutluluk gönderin." />
+  <meta name="description" content="Online çiçek siparişi verin, en taze çiçek aranjmanları aynı gün teslimat ile kapınıza gelsin. Flora Haven ile sevdiklerinizi mutlu edin." />
   <meta name="keywords" content="çiçek, çiçek siparişi, taze çiçek, hediye çiçek, flora haven, aynı gün teslimat çiçek" />
   <meta name="author" content="Flora Haven" />
 
@@ -29,31 +29,40 @@
 
   -->
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
 
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    Notice the use of %PUBLIC_URL% in the tags above.
+    It will be replaced with the URL of the `public` folder during the build.
+    Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
+    Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+    work correctly both with client-side routing and a non-root public URL.
+    Learn how to configure a non-root public URL by running `npm run build`.
 
-    -->
+  -->
 
-  <title>Flora Haven | Doğanın Zarif Sığınağı</title>
+  <title>Florame Haven | Online Çiçek Siparişi & Aynı Gün Teslimat</title>
 
   <style>
 
+    #header {
+
+      color: #e11d48;
+      text-align: center;
+    }
+
     #root:empty {
+
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       background-color: #fff;
     }
+
     #root:empty::after {
+
       content: "";
       width: 40px;
       height: 40px;
@@ -62,10 +71,13 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
+
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
   </style>
 
 </head>
@@ -73,6 +85,24 @@
 <body>
 
   <noscript>Flora Haven'ı görüntüleyebilmek için tarayıcınızda JavaScript'in etkin olması gerekir.</noscript>
+
+  <script type="application/ld+json">
+
+    {
+    "@context": "https://schema.org",
+    "@type": "Florist",
+    "name": "Flora Haven",
+    "image": "https://ornekciceksitesi.com/og-image.jpg",
+    "url": "https://ornekciceksitesi.com",
+    "telephone": "+905511335410",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "TR"
+    }
+  }
+
+  </script>
+
 
   <div id="root"></div>
 
@@ -88,6 +118,7 @@
     To create a production bundle, use `npm run build` or `yarn build`.
 
   -->
+  <h1 id="header">Online Çiçek Siparişi & Aynı Gün Teslimat | Flora Haven</h1>
 
 </body>
 

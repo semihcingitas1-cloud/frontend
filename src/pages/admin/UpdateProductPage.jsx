@@ -7,17 +7,12 @@ import Button from '../../components/Button';
 
 const UpdateProductPage = () => {
 
-    const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [data, setData] = useState({
-        name: "", 
-        description: "", 
-        price: 0, 
-        category: "",
-        images: []
-    });
+    const { id } = useParams();
+
+    const [data, setData] = useState({ name: "", description: "", price: 0, category: "", images: [] });
 
     useEffect(() => {
 
@@ -80,7 +75,7 @@ const UpdateProductPage = () => {
 
         await dispatch(updateAdminProduct({ id, productData: data }));
         alert("Ürün başarıyla güncellendi!");
-        navigate('/admin'); 
+        navigate('/admin/productsadmin'); 
     };
 
     return (
@@ -128,6 +123,5 @@ const UpdateProductPage = () => {
         </div>
     );
 };
-
 
 export default UpdateProductPage;

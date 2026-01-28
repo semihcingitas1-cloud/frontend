@@ -3,7 +3,9 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
 
     keyword: "",
-    openModal: false
+    openModal: false,
+    openUpdateModal: false,
+    openOrderModal: false,
 };
 
 export const generalSlice = createSlice({
@@ -20,9 +22,17 @@ export const generalSlice = createSlice({
 
             state.openModal = !state.openModal
         },
+        openUpdateModalFunc: (state, action) => {
+
+            state.openUpdateModal = !state.openUpdateModal
+        },
+        openOrderModalFunc: (state, action) => {
+
+            state.openOrderModal = !state.openOrderModal
+        },
     },
 });
 
-export const { getKeyword, openModalFunc } = generalSlice.actions;
+export const { getKeyword, openModalFunc, openUpdateModalFunc, openOrderModalFunc } = generalSlice.actions;
 
 export default generalSlice.reducer;

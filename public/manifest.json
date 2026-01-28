@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Flora Haven",
+  "name": "Flora Haven | Doğanın Zarif Sığınağı",
+  "description": "En taze çiçek tasarımları, özel gün aranjmanları ve aynı gün teslimat seçeneğiyle sevdiklerinize mutluluk gönderin.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,16 +11,37 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "background_color": "#ffffff",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "scope": "/",
+  "theme_color": "#e11d48",
+  "shortcuts": [
+    {
+      "name": "Yeni Gelenler",
+      "short_name": "Yeni",
+      "description": "En taze ve yeni eklenen çiçekleri gör",
+      "url": "/products?source=pwa",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Sipariş Takibi",
+      "short_name": "Takip",
+      "description": "Çiçek siparişinin durumunu sorgula",
+      "url": "/orders?source=pwa",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    }
+  ],
+  "orientation": "portrait"
 }

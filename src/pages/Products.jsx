@@ -29,6 +29,7 @@ const Products = () => {
     };
 
     useEffect(() => {
+
         dispatch(getProducts({ keyword, price, rating, category }));
     }, [dispatch, keyword, price, rating, category]);
 

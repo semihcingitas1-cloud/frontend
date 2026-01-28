@@ -14,6 +14,7 @@ import {
 const AnalyticsAdmin = () => {
 
     const monthlySales = [
+
         { ay: 'Oca', satis: 12000, kar: 4000, hedef: 10000 },
         { ay: 'Şub', satis: 15000, kar: 5500, hedef: 14000 },
         { ay: 'Mar', satis: 11000, kar: 3800, hedef: 15000 },
@@ -23,6 +24,7 @@ const AnalyticsAdmin = () => {
     ];
 
     const categoryStats = [
+
         { name: 'İç Mekan Bitkileri', value: 45, color: '#10b981' },
         { name: 'Dış Mekan Bitkileri', value: 25, color: '#3b82f6' },
         { name: 'Bahçe Ekipmanları', value: 20, color: '#f59e0b' },

@@ -1,20 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllOrders, updateOrderStatus, uploadOrderPhoto } from '../../redux/orderSlice';
-import AdminPanel from '../../layout/AdminPanel';
-import { IoClose, IoCloudUploadOutline } from "react-icons/io5";
-import { CiStickyNote } from "react-icons/ci";
 import io from 'socket.io-client';
 
-const socket = io.connect("https://backend-d72l.onrender.com");
+import { getAllOrders, updateOrderStatus, uploadOrderPhoto } from '../../redux/orderSlice';
+
+import AdminPanel from '../../layout/AdminPanel';
+
+import { IoClose, IoCloudUploadOutline } from "react-icons/io5";
+import { CiStickyNote } from "react-icons/ci";
+
+const socket = io.connect("http://localhost:4000");
 
 const OrdersAdmin = () => {
 
     const dispatch = useDispatch();
-    const { orders, loading } = useSelector(state => state.orders);
+
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [deliveryImage, setDeliveryImage] = useState("");
     const [uploadLoading, setUploadLoading] = useState(false);
+
+
+    const { orders, loading } = useSelector(state => state.orders);
 
     const playSound = () => {
 
@@ -24,9 +30,10 @@ const OrdersAdmin = () => {
 
     useEffect(() => {
 
-
         dispatch(getAllOrders());
+
         console.log("Socket bağlantı durumu:", socket.connected);
+
         socket.on("connect", () => {
 
             console.log("Bağlantı başarılı! ID:", socket.id);
@@ -39,8 +46,7 @@ const OrdersAdmin = () => {
 
         const joinRoom = () => {
 
-            socket.emit("join_chat", "admin"); 
-            console.log("Admin odasına giriş isteği gönderildi.");
+            socket.emit("join_chat", "admin");
         };
 
         if (socket.connected) {
@@ -63,21 +69,31 @@ const OrdersAdmin = () => {
             setTimeout(() => { document.title = oldTitle }, 5000);
         };
 
+        const onRevisionRequest = () => {
+
+            playSound();
+            const oldTitle = document.title;
+            document.title = "⚠️ REVİZE TALEBİ!";
+            dispatch(getAllOrders());
+            setTimeout(() => { document.title = oldTitle }, 5000);
+        };
+
         const onStatusUpdate = (data) => {
 
-            console.log("🔄 Sipariş Durumu Güncellendi:", data);
             dispatch(getAllOrders());
         };
 
         socket.on("connect", onConnect);
         socket.on("new_order", onNewOrder);
         socket.on("order_status_updated", onStatusUpdate);
+        socket.on("order_revision_requested", onRevisionRequest);
 
         return () => {
 
             socket.off("connect", onConnect);
             socket.off("new_order", onNewOrder);
             socket.off("order_status_updated", onStatusUpdate);
+            socket.off("order_revision_requested", onRevisionRequest);
         };
 
     }, [dispatch]);
@@ -186,7 +202,17 @@ const OrdersAdmin = () => {
 
                                         <td className="px-6 py-4 text-sm text-gray-600">{new Date(order.createdAt).toLocaleDateString('tr-TR')}</td>
                                         <td className="px-6 py-4 font-bold text-gray-700">{order.totalPrice?.toLocaleString()} ₺</td>
-                                        <td className="px-6 py-4"><span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${getStatusStyle(order.orderStatus)}`}>{order.orderStatus}</span></td>
+
+                                        <td className="px-6 py-4">
+
+                                            <div className="">
+
+                                                <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${getStatusStyle(order.orderStatus)}`}>{order.orderStatus}</span>
+                                                {order.revisionCount > 0 && order.orderStatus === "Hazırlanıyor" && ( <span className="text-[9px] bg-red-600 text-white px-2 py-0.5 rounded-full text-center animate-pulse">REVİZE</span> )}
+
+                                            </div>
+
+                                        </td>
 
                                         <td className="px-6 py-4 text-right">
 
@@ -312,6 +338,26 @@ const OrdersAdmin = () => {
                                     </div>
                                 )}
 
+                                {/* Modal içinde Sipariş İçeriği'nden sonra */}
+{selectedOrder.revisions && selectedOrder.revisions.length > 0 && (
+    <div className="bg-orange-50 border-2 border-orange-200 rounded-2xl p-4">
+        <h4 className="font-bold text-orange-800 mb-3 flex items-center gap-2 text-sm">
+            <CiStickyNote size={18} /> Müşteri Revize Notları ({selectedOrder.revisionCount}/3)
+        </h4>
+        <div className="space-y-3">
+            {[...selectedOrder.revisions].reverse().map((rev, idx) => (
+                <div key={idx} className="bg-white p-3 rounded-xl border border-orange-100 shadow-sm">
+                    <p className="text-xs text-gray-700 italic">"{rev.note}"</p>
+                    <p className="text-[10px] text-gray-400 mt-2 flex justify-between">
+                        <span>{new Date(rev.date).toLocaleString('tr-TR')}</span>
+                        <span className="font-bold text-orange-500">{selectedOrder.revisions.length - idx}. Revize</span>
+                    </p>
+                </div>
+            ))}
+        </div>
+    </div>
+)}
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
 
                                 <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100 text-xs lg:text-sm">
@@ -363,6 +409,5 @@ const OrdersAdmin = () => {
     );
 
 };
-
 
 export default OrdersAdmin;

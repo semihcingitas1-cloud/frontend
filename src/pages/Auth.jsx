@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { login, register } from '../redux/userSlice.js';
 
 import { Mail, Lock, User, Phone, Flower } from 'lucide-react';
-import { ToastContainer, toast } from 'react-toastify';
 
 const AuthPage = () => {
 

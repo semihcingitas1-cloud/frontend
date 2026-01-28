@@ -1,55 +1,79 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = "https://backend-d72l.onrender.com";
+const BASE_URL = "http://localhost:4000";
 
 export const getAllCategories = createAsyncThunk("getAllCategories", async () => {
-    const { data } = await axios.get(`${API_URL}/categories`);
+
+    const { data } = await axios.get(`${BASE_URL}/categories`);
     return data.categories;
 });
 
 export const createCategory = createAsyncThunk("createCategory", async (categoryData, { rejectWithValue }) => {
+
     try {
+
         const token = localStorage.getItem('token');
-        const { data } = await axios.post(`${API_URL}/admin/category/new`, categoryData, {
+
+        const { data } = await axios.post(`${BASE_URL}/admin/category/new`, categoryData, {
+
             headers: { Authorization: `Bearer ${token}` }
         });
+
         return data.category;
+
     } catch (error) {
+
         return rejectWithValue(error.response.data.message);
     }
 });
 
 export const deleteCategory = createAsyncThunk("deleteCategory", async (id) => {
+
     const token = localStorage.getItem('token');
-    await axios.delete(`${API_URL}/admin/category/${id}`, {
+
+    await axios.delete(`${BASE_URL}/admin/category/${id}`, {
+
         headers: { Authorization: `Bearer ${token}` }
     });
+
     return id;
 });
 
 export const getAllShippings = createAsyncThunk("getAllShippings", async () => {
-    const { data } = await axios.get(`${API_URL}/shippings`);
+
+    const { data } = await axios.get(`${BASE_URL}/shippings`);
     return data.shippings;
 });
 
 export const createShipping = createAsyncThunk("createShipping", async (shippingData, { rejectWithValue }) => {
+
     try {
+
         const token = localStorage.getItem('token');
-        const { data } = await axios.post(`${API_URL}/admin/shipping/new`, shippingData, {
+
+        const { data } = await axios.post(`${BASE_URL}/admin/shipping/new`, shippingData, {
+
             headers: { Authorization: `Bearer ${token}` }
         });
+
         return data.shipping;
+
     } catch (error) {
+
         return rejectWithValue(error.response.data.message);
     }
 });
 
 export const deleteShipping = createAsyncThunk("deleteShipping", async (id) => {
+
     const token = localStorage.getItem('token');
-    await axios.delete(`${API_URL}/admin/shipping/${id}`, {
+
+    await axios.delete(`${BASE_URL}/admin/shipping/${id}`, {
+
         headers: { Authorization: `Bearer ${token}` }
     });
+
     return id;
 });
 
@@ -80,8 +104,6 @@ const categorySlice = createSlice({
         builder.addCase(deleteCategory.fulfilled, (state, action) => {
             state.categories = state.categories.filter(cat => cat._id !== action.payload);
         });
-
-        // --- KARGO REDUCERS (YENİ) ---
         builder.addCase(getAllShippings.fulfilled, (state, action) => {
             state.loading = false;
             state.shippings = action.payload;
@@ -109,5 +131,4 @@ const categorySlice = createSlice({
 });
 
 export const { clearStatus } = categorySlice.actions;
-
 export default categorySlice.reducer;

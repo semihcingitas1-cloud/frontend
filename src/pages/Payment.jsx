@@ -11,18 +11,24 @@ import Button from '../components/Button';
 
 const Payment = () => {
 
-    const { carts, totalAmount } = useSelector(state => state.cart);
-    const { user } = useSelector(state => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const { carts, totalAmount } = useSelector(state => state.cart);
+    const { user } = useSelector(state => state.user);
+
     const [paymentMethod, setPaymentMethod] = useState('card');
+    const [selectedAddress, setSelectedAddress] = useState( user?.user?.addresses?.[0] || null );
+
+    const shippingPrice = selectedAddress?.shippingPrice || 0;
+    const codFee = paymentMethod === 'cod' ? 50 : 0;
+    const finalTotal = totalAmount + shippingPrice + codFee;
 
     const handleOrderSubmit = async () => {
 
         const orderData = {
 
-            shippingInfo: user.user.addresses[0],
+            shippingInfo: selectedAddress,
             orderItems: carts.map(item => ({
 
                 name: item.name,
@@ -38,8 +44,8 @@ const Payment = () => {
                 status: "Succeeded"
             },
             itemsPrice: totalAmount,
-            shippingPrice: 500,
-            totalPrice: totalAmount + 500,
+            shippingPrice: shippingPrice + codFee,
+            totalPrice: finalTotal,
             paymentMethod: paymentMethod
         };
 
@@ -69,11 +75,7 @@ const Payment = () => {
 
                 </div>
 
-                {paymentMethod === 'card' && (
-
-                    <PaymentForm />
-
-                )}
+                {paymentMethod === 'card' && ( <PaymentForm /> )}
 
                 {paymentMethod === 'iban' && (
 
@@ -109,7 +111,7 @@ const Payment = () => {
                 )}
 
             </div>
-            {/* SAĞ TARAF: Küçük Sepet Özeti */}
+
             <div className='w-full md:w-80 h-fit p-6 border rounded-2xl bg-gray-50 space-y-4'>
 
                 <h3 className='font-bold text-lg'>Sipariş Özeti</h3>
@@ -131,9 +133,20 @@ const Payment = () => {
 
                 <div className='pt-4 space-y-2'>
 
-                    <div className='flex justify-between'><span>Ara Toplam:</span><span>{totalAmount} ₺</span></div>
-                    <div className='flex justify-between'><span>Kargo:</span><span>500 ₺</span></div>
-                    <div className='flex justify-between font-bold text-xl text-pink-600 border-t pt-2'><span>Toplam:</span><span>{totalAmount + 500} ₺</span></div>
+                    <div className='flex justify-between'><span>Ara Toplam:</span><span>{totalAmount} ₺</span></div><div className='flex justify-between'><span>Kargo:</span><span>{shippingPrice} ₺</span></div>
+                    {paymentMethod === 'cod' && ( <div className='flex justify-between text-sm text-gray-600'>
+
+                        <span>Kapıda Ödeme Ücreti:</span>
+                        <span>50 ₺</span>
+
+                    </div> )}
+
+                    <div className='flex justify-between font-bold text-xl text-pink-600 border-t pt-2'>
+
+                        <span>Toplam:</span>
+                        <span>{finalTotal} ₺</span>
+
+                    </div>
 
                 </div>
 

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
+
 import { getAllSliders } from '../redux/sliderSlice';
 
 const HomeSlider = () => {
@@ -15,11 +16,20 @@ const HomeSlider = () => {
 
     useEffect(() => {
 
-        dispatch(getAllSliders());
+        if (!sliders || sliders.length === 0) {
+
+            dispatch(getAllSliders());
+        }
+
         const handleResize = () => setIsMobile(window.innerWidth < 768);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, [dispatch]);
+
+    const activeSliders = useMemo(() => {
+
+        return sliders?.filter(slider => slider.isActive !== false) || [];
+    }, [sliders]);
 
     var settings = {
 
@@ -52,7 +62,7 @@ const HomeSlider = () => {
 
                     <Slider {...settings}>
 
-                        {sliders && sliders.map((item, i) => ( <div key={item._id} className='outline-none cursor-pointer' onClick={() => navigate(item.link)}>
+                        {activeSliders && activeSliders.map((item, i) => ( <div key={item._id} className='outline-none cursor-pointer' onClick={() => navigate(item.link)}>
 
                             <img className='w-full object-cover max-h-[500px]' src={isMobile ? item.image.url.replace("/upload/", "/upload/f_auto,q_auto,w_600/") : item.image.url.replace("/upload/", "/upload/f_auto,q_auto,w_1600/")} alt={item.title || "Kampanya"} loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : "low"}/>
                         </div>))}

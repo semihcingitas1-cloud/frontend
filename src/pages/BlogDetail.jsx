@@ -6,6 +6,7 @@ import { getBlogDetail, clearErrors } from '../redux/blogSlice';
 import { toast } from 'react-toastify';
 
 const BlogDetail = () => {
+
     const { slug } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -13,7 +14,8 @@ const BlogDetail = () => {
     const { blog, loading, error } = useSelector((state) => state.blogs);
 
     useEffect(() => {
-console.log("Slug gönderiliyor:", slug);
+
+        console.log("Slug gönderiliyor:", slug);
         dispatch(getBlogDetail(slug));
 
         if (error) {
@@ -23,7 +25,9 @@ console.log("Slug gönderiliyor:", slug);
     }, [dispatch, slug, error]);
 
     if (loading) {
+
         return (
+
             <div className="min-h-screen flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500"></div>
             </div>
@@ -31,11 +35,13 @@ console.log("Slug gönderiliyor:", slug);
     }
 
     const shareHandler = () => {
+
         navigator.clipboard.writeText(window.location.href);
         toast.success("Link kopyalandı!");
     };
 
     return (
+
         <div className="bg-white min-h-screen pb-20">
             {/* Header / Hero Image */}
             <div className="relative h-[450px] w-full">

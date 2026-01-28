@@ -6,21 +6,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addAddress, deleteAddress, logoutUser } from '../redux/userSlice';
 import { approveOrder, getMyOrders } from '../redux/orderSlice';
 
-import { FaTrash, FaBox, FaTruck, FaCheckDouble, FaClock, FaEye, FaCheckCircle, FaCreditCard } from 'react-icons/fa';
+import { FaTrash, FaBox, FaTruck, FaCheckDouble, FaClock, FaEye, FaCreditCard } from 'react-icons/fa';
 import { User, Package, MapPin, ShieldCheck, LogOut, ChevronRight } from 'lucide-react';
 import { CiCirclePlus } from 'react-icons/ci';
+import { getAllShippings } from '../redux/categorySlice';
 
 const ProfilePage = () => {
-
-    const [activeTab, setActiveTab] = useState('siparislerim');
-    const { myOrders, loading } = useSelector(state => state.orders);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { user } = useSelector(state => state.user);
+    const [activeTab, setActiveTab] = useState('siparislerim');
     const [showAddrModal, setShowAddrModal] = useState(false);
     const [addressInfo, setAddressInfo] = useState({ title: '', address: '', city: 'KONYA',district: '', shippingPrice: 0, phoneNo: '' });
+
+    const { user } = useSelector(state => state.user);
+    const { myOrders, loading } = useSelector(state => state.orders);
+    const { shippings } = useSelector(state => state.category);
 
     const handleAddAddress = (e) => {
 
@@ -97,6 +99,7 @@ const ProfilePage = () => {
 
     useEffect(() => {
 
+        dispatch(getAllShippings());
         dispatch(getMyOrders());
     }, [dispatch]);
 
@@ -142,35 +145,15 @@ const ProfilePage = () => {
 
     if (loading) {
 
-        return <div className="min-h-screen flex items-center justify-center font-semibold text-gray-500 italic">Siparişleriniz yükleniyor...</div>;
+        return <div className="min-h-screen flex items-center justify-center font-semibold text-gray-500 italic">Verileriniz yükleniyor...</div>;
     };
 
-
     const logout = () => {
-            
+
         localStorage.removeItem("token");
         dispatch(logoutUser());
         navigate('/');
     }
-
-    const KONYA_DATA = [
-
-        { ilce: "Selçuklu", fiyat: 0 },
-        { ilce: "Karatay", fiyat: 0 },
-        { ilce: "Meram", fiyat: 0 },
-        { ilce: "Akşehir", fiyat: 55 },
-        { ilce: "Ereğli", fiyat: 60 },
-        { ilce: "Beyşehir", fiyat: 45 },
-        { ilce: "Seydişehir", fiyat: 45 },
-        { ilce: "Cihanbeyli", fiyat: 50 },
-        { ilce: "Kulu", fiyat: 50 },
-        { ilce: "Çumra", fiyat: 35 },
-        { ilce: "Ilgın", fiyat: 40 },
-        { ilce: "Karapınar", fiyat: 45 },
-        { ilce: "Sarayönü", fiyat: 35 },
-        { ilce: "Bozkır", fiyat: 50 },
-        { ilce: "Kadınhanı", fiyat: 40 }
-    ];
 
     return (
 
@@ -334,21 +317,19 @@ const ProfilePage = () => {
 
                                 <label className="text-[10px] absolute left-3 top-1 text-rose-500 font-bold uppercase italic">İlçe Seçin</label>
                                 <select className='w-full p-3 pt-5 border rounded-xl outline-rose-500 bg-white cursor-pointer font-semibold'value={addressInfo.district}
+
                                     onChange={(e) => {
 
-                                        const selected = KONYA_DATA.find(i => i.ilce === e.target.value);
-                                        setAddressInfo({
-                                            ...addressInfo, 
-                                            district: e.target.value,
-                                            shippingPrice: selected ? selected.fiyat : 0
-                                        });
+                                        const selected = shippings.find(i => i.district === e.target.value);
+                                        setAddressInfo({ ...addressInfo, district: e.target.value, shippingPrice: selected ? selected.price : 0 });
                                     }}
-                                    required>
+                                    required >
 
                                     <option value="">Seçiniz...</option>
 
-                                    {KONYA_DATA.map((item) => (
-                                        <option key={item.ilce} value={item.ilce}>{item.ilce}</option>
+                                    {shippings && shippings.map(ship => (
+
+                                        <option key={ship._id} value={ship.district}>{ship.district} - {ship.price}₺</option>
                                     ))}
 
                                 </select>

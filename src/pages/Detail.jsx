@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Slider from 'react-slick';
+
 import Button from '../components/Button';
 import TextArea from '../components/TexrArea';
 import Note from '../components/Note';
+
 import { addReview, getProductDetail, deleteReview } from '../redux/productSlice';
 import { addToCart } from '../redux/cartSlice';
+import { getAllShippings } from '../redux/categorySlice';
+
 import { CiCirclePlus, CiCircleMinus, CiChat1, CiCamera, CiEraser } from "react-icons/ci";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
-import { MapPin, Receipt, Truck, User, Mail, Phone } from 'lucide-react';
+import { IoReturnUpBack } from "react-icons/io5";
+import { MapPin, Receipt, Truck, User } from 'lucide-react';
 
 const Detail = () => {
 
@@ -19,6 +24,9 @@ const Detail = () => {
 
     const { user, isAuth } = useSelector(state => state.user); 
     const { loading, product } = useSelector(state => state.products);
+
+    const { shippings } = useSelector(state => state.category);
+
     const oldPrice = Number(product?.product?.oldPrice);
     const currentPrice = Number(product?.product?.price);
 
@@ -31,6 +39,10 @@ const Detail = () => {
     const [rating, setRating] = useState(5);
     const [images, setImages] = useState([]);
 
+    const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
+    const [replyText, setReplyText] = useState("");
+    const [selectedReviewId, setSelectedReviewId] = useState(null);
+
     const discountRate = oldPrice ? Math.round(((oldPrice - currentPrice) / oldPrice) * 100) : 0;
 
     useEffect(() => {
@@ -39,6 +51,8 @@ const Detail = () => {
 
             dispatch(getProductDetail(id));
         };
+
+        dispatch(getAllShippings());
     }, [dispatch, id]);
 
     const handleImageChange = (e) => {
@@ -93,7 +107,6 @@ const Detail = () => {
 
         dispatch(addToCart(data));
         navigate('/cart');
-
     };
 
     const submitReview = () => {
@@ -136,14 +149,21 @@ const Detail = () => {
         if (window.confirm("Bu yorumu silmek istediğinize emin misiniz?")) {
 
             dispatch(deleteReview({ productId: id, reviewId }))
-                .unwrap()
-                .then(() => {
+            .unwrap()
+            .then(() => {
 
-                    alert("Yorum silindi.");
-                    dispatch(getProductDetail(id)); 
-                })
-                .catch((err) => alert(err));
+                alert("Yorum silindi.");
+                dispatch(getProductDetail(id)); 
+            })
+            .catch((err) => alert(err));
         }
+    };
+
+    const handleReplySubmit = async () => {
+
+        console.log("Review ID:", selectedReviewId, "Cevap:", replyText);
+        setIsReplyModalOpen(false);
+        setReplyText("");
     };
 
     var settings = {
@@ -178,46 +198,12 @@ const Detail = () => {
         setShippingInfo({ ...shippingInfo, [e.target.name]: e.target.value });
     };
 
-    const konyaDistricts = [
-
-        { name: "Selçuklu", price: 0, isCenter: true },
-        { name: "Meram", price: 0, isCenter: true },
-        { name: "Karatay", price: 0, isCenter: true },
-        { name: "Akşehir", price: 45, isCenter: false },
-        { name: "Beyşehir", price: 40, isCenter: false },
-        { name: "Ereğli", price: 50, isCenter: false },
-        { name: "Seydişehir", price: 40, isCenter: false },
-        { name: "Cihanbeyli", price: 45, isCenter: false },
-        { name: "Kulu", price: 45, isCenter: false },
-        { name: "Ilgın", price: 35, isCenter: false },
-        { name: "Kadınhanı", price: 30, isCenter: false },
-        { name: "Sarayönü", price: 30, isCenter: false },
-        { name: "Karapınar", price: 40, isCenter: false },
-        { name: "Çumra", price: 30, isCenter: false },
-        { name: "Doğanhisar", price: 45, isCenter: false },
-        { name: "Hüyük", price: 45, isCenter: false },
-        { name: "Bozkır", price: 50, isCenter: false },
-        { name: "Hadim", price: 55, isCenter: false },
-        { name: "Taşkent", price: 60, isCenter: false },
-        { name: "Güneysınır", price: 40, isCenter: false },
-        { name: "Emirgazi", price: 50, isCenter: false },
-        { name: "Halkapınar", price: 60, isCenter: false },
-        { name: "Derebucak", price: 55, isCenter: false },
-        { name: "Tuzlukçu", price: 45, isCenter: false },
-        { name: "Yalıhüyük", price: 50, isCenter: false },
-        { name: "Altınekin", price: 35, isCenter: false },
-        { name: "Ahırlı", price: 50, isCenter: false },
-        { name: "Derbent", price: 35, isCenter: false },
-        { name: "Yunak", price: 50, isCenter: false },
-        { name: "Çeltik", price: 55, isCenter: false }
-    ];
-
     const [selectedDistrict, setSelectedDistrict] = useState(null);
 
     const handleDistrictChange = (e) => {
 
         const districtName = e.target.value;
-        const districtObj = konyaDistricts.find(d => d.name === districtName);
+        const districtObj = shippings.find(d => d.district === districtName);
 
         if (districtObj) {
 
@@ -226,6 +212,12 @@ const Detail = () => {
         } else {
             setSelectedDistrict(null);
         }
+    };
+
+    const handlePayment = () => {
+
+
+        navigate('/payment');
     };
 
     return (
@@ -252,7 +244,7 @@ const Detail = () => {
 
                             {product?.product?.images?.map((image, i) => (
 
-                                <img className='rounded-3xl h-[550px] w-full object-cover shadow-xl' key={i} src={image.url.replace("/upload/", "/upload/f_auto,q_auto,w_1200/")} alt={product?.product?.name} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : "low"}/>
+                                <img className='rounded-3xl h-[550px] w-full object-cover shadow-xl' key={i} src={image.url.replace("/upload/", "/upload/f_auto,q_auto,w_1200/")} alt={product?.product?.name} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : "low"} />
                             ))}
 
                         </Slider>
@@ -373,9 +365,9 @@ const Detail = () => {
 
                                         <select name="district" onChange={handleDistrictChange} className="input-style" placeholder="İlçe">
 
-                                            {konyaDistricts.map((districs, index) => (
+                                            {shippings && shippings.map(ship => (
 
-                                                <option key={index} value={districs.name}>{districs.name}</option>
+                                                <option key={ship._id} value={ship.district}>{ship.district}</option>
                                             ))}
 
                                         </select>
@@ -429,7 +421,7 @@ const Detail = () => {
                                     <div className="space-y-4 mb-6 border-b border-gray-700 pb-6 text-sm text-gray-600">
 
                                         <div className="flex justify-between"><span>Ara Toplam</span><span>{product?.product?.price} ₺</span></div>
-                                        <div className="flex justify-between text-emerald-400"><span>Kargo ({selectedDistrict?.name || "Seçilmedi"})</span><span>{selectedDistrict ? (selectedDistrict.price === 0 ? "Ücretsiz" : `${selectedDistrict.price} ₺`) : "0 ₺"}</span></div>
+                                        <div className="flex justify-between text-emerald-400"><span>Kargo ({selectedDistrict?.district || "Seçilmedi"})</span><span>{selectedDistrict ? (selectedDistrict.price === 0 ? "Ücretsiz" : `${selectedDistrict.price} ₺`) : "0 ₺"}</span></div>
 
                                     </div>
 
@@ -440,7 +432,7 @@ const Detail = () => {
 
                                     </div>
 
-                                    <button className="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-4 rounded-2xl transition-all">Ödemeye Geç</button>
+                                    <button onClick={handlePayment} className="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-4 rounded-2xl transition-all">Ödemeye Geç</button>
 
                                 </div>
 
@@ -478,9 +470,33 @@ const Detail = () => {
 
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-16'>
 
+                    {isReplyModalOpen && ( <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+
+                        <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+
+                            <div className="p-6">
+
+                                <h3 className="text-xl font-bold text-gray-800 mb-2">Yoruma Cevap Ver</h3>
+                                <p className="text-sm text-gray-500 mb-4">Müşteriye nazik ve profesyonel bir yanıt bırakın.</p>
+                                <textarea rows="4" className="w-full border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-rose-400 focus:border-transparent outline-none transition-all resize-none" placeholder="Cevabınızı buraya yazın..." value={replyText} onChange={(e) => setReplyText(e.target.value)} />
+
+                                <div className="flex gap-3 mt-6">
+
+                                    <button onClick={() => setIsReplyModalOpen(false)} className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition">Vazgeç</button>
+                                    <button onClick={handleReplySubmit} disabled={!replyText.trim()} className="flex-1 px-4 py-2.5 bg-rose-500 text-white rounded-xl font-medium hover:bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg shadow-rose-200">Yanıtla</button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>)}
+
                     <div>
 
                         <h2 className='text-3xl font-bold mb-8 text-gray-800'>Müşteri Değerlendirmeleri</h2>
+
                         {product?.product?.reviews && product.product.reviews.length > 0 ? (
 
                             <div className='space-y-6'>
@@ -491,13 +507,10 @@ const Detail = () => {
 
                                         {user?.user?.role === 'admin' && (
 
-                                            <div className='absolute bottom-4 right-4'>
+                                            <div className='absolute bottom-4 right-4 flex gap-2'>
 
-                                                <div onClick={() => handleDeleteReview(rev._id)}>
-
-                                                    <CiEraser size={35} className='hover:bg-red-500 hover:text-white transition duration-300 rounded-full p-1 border cursor-pointer' />
-
-                                                </div>
+                                                <div onClick={() => handleDeleteReview(rev._id)}><CiEraser size={35} className='hover:bg-red-500 hover:text-white transition duration-300 rounded-full p-1 border cursor-pointer' /></div>
+                                                <div onClick={() => {setSelectedReviewId(rev._id);setIsReplyModalOpen(true);}}><IoReturnUpBack size={35} className='hover:bg-green-500 hover:text-white transition duration-300 rounded-full p-1 border cursor-pointer' /></div>
 
                                             </div>
 
@@ -505,7 +518,12 @@ const Detail = () => {
 
                                         <div className='flex justify-between items-start mb-3'>
 
-                                            <div className='font-bold text-gray-800'>{rev.name}</div>
+                                            <div className='font-bold text-gray-800 flex items-center gap-1'>
+
+                                                <img src={rev?.avatar} alt="avatar" className='w-8 h-8 border-rose-400 border-2 rounded-full' />
+                                                {rev.name}
+
+                                            </div>
                                             {renderStars(rev.rating, 16)}
 
                                         </div>
@@ -616,6 +634,5 @@ const Detail = () => {
 
     );
 };
-
 
 export default Detail;

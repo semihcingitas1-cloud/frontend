@@ -88,37 +88,50 @@ const MessagesAdmin = () => {
         });
 
         socket.on("old_messages", (data) => {
+
             if (!data || !Array.isArray(data)) return;
             const groupedMessages = {};
             const chatUsers = [];
+
             data.forEach(msg => {
+
                 const partnerId = msg.senderId === "admin" ? msg.receiverId : msg.senderId;
                 const partnerName = msg.senderId === "admin" ? "Müşteri" : (msg.senderName || "Müşteri");
+
                 if (!partnerId || partnerId === "undefined") return;
+
                 if (!groupedMessages[partnerId]) {
+
                     groupedMessages[partnerId] = [];
+
                     if (!chatUsers.find(u => u.id === partnerId)) {
+
                         chatUsers.push({ id: partnerId, name: partnerName });
                     }
                 }
                 groupedMessages[partnerId].push(msg);
             });
+
             setMessages(groupedMessages);
             setUsers(chatUsers);
         });
 
         socket.on("unread_counts_data", (data) => {
+
             const counts = {};
             data.forEach(item => counts[item._id] = item.count);
             setUnreadCounts(counts);
         });
 
         socket.on("user_typing", ({ senderId, isTyping }) => {
+
             setTypingStatus(prev => ({ ...prev, [senderId]: isTyping }));
         });
 
         socket.on("user_status_changed", ({ userId, status }) => {
+
             setOnlineUsers(prev => {
+
                 const next = new Set(prev);
                 status === "online" ? next.add(userId) : next.delete(userId);
                 return next;
@@ -126,24 +139,31 @@ const MessagesAdmin = () => {
         });
 
         socket.on("messages_seen_updated", ({ seenBy, partnerId }) => {
+
             const targetId = partnerId || seenBy;
+
             setMessages(prev => {
+
                 if (!prev[targetId]) return prev;
                 return { ...prev, [targetId]: prev[targetId].map(msg => ({ ...msg, isSeen: true })) };
             });
         });
 
         socket.on("messages_deleted", ({ userId }) => {
+
             setMessages(prev => {
+
                 const newMessages = { ...prev };
                 delete newMessages[userId];
                 return newMessages;
             });
+
             setUsers(prev => prev.filter(u => u.id !== userId));
             if (selectedUserRef.current?.id === userId) setSelectedUser(null);
         });
 
         return () => {
+
             socket.off("receive_message");
             socket.off("old_messages");
             socket.off("unread_counts_data");
@@ -155,7 +175,9 @@ const MessagesAdmin = () => {
     }, []);
 
     useEffect(() => {
+
         if (selectedUser) {
+
             setUnreadCounts(prev => ({ ...prev, [selectedUser.id]: 0 }));
             socket.emit("mark_as_seen", { senderId: selectedUser.id, receiverId: "admin" });
             setTimeout(() => {
@@ -182,7 +204,7 @@ const MessagesAdmin = () => {
             senderId: "admin",
             receiverId: targetUser.id,
             message: finalMsg,
-            senderName: "Gala Çiçek Admin",
+            senderName: "Flora Haven Admin",
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             isSeen: false
         };
