@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://backend-d72l.onrender.com";
 
 export const createSlider = createAsyncThunk("createSlider", async (sliderData) => {
 
@@ -108,4 +108,5 @@ const sliderSlice = createSlice({
 });
 
 export const { clearErrors, resetSliderStatus } = sliderSlice.actions;
+
 export default sliderSlice.reducer;
