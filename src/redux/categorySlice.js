@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://backend-d72l.onrender.com";
 
 export const getAllCategories = createAsyncThunk("getAllCategories", async () => {
 
@@ -131,4 +131,5 @@ const categorySlice = createSlice({
 });
 
 export const { clearStatus } = categorySlice.actions;
+
 export default categorySlice.reducer;
