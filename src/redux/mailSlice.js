@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://backend-d72l.onrender.com";
 
 const initialState = {
 
@@ -86,4 +86,5 @@ export const mailSlice = createSlice({
 });
 
 export const { resetMailStatus } = mailSlice.actions;
+
 export default mailSlice.reducer;
