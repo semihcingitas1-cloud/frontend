@@ -59,7 +59,7 @@ export const userSlice = createSlice({
 });*/}
 
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://backend-d72l.onrender.com";
 
 const initialState = {
     user: {},
@@ -340,3 +340,4 @@ export const { logoutUser } = userSlice.actions;
 
 
 export default userSlice.reducer;
+
